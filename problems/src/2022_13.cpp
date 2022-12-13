@@ -7,9 +7,9 @@
 
 #include <compare>
 #include <iostream>
+#include <ranges>
 #include <variant>
 #include <vector>
-#include <algorithm>
 
 namespace
 {
@@ -132,8 +132,8 @@ namespace year_2022
 
 size_t solve13_a(std::istream& input)
 {
-    size_t right_order_indices_sum  = 0;
-    size_t idx                      = 1;
+    size_t right_order_indices_sum = 0;
+    size_t idx                     = 1;
 
     std::string line1;
     std::string line2;
@@ -161,19 +161,8 @@ size_t solve13_b(std::istream& input)
     const auto div1 = parse_expr("[[2]]");
     const auto div2 = parse_expr("[[6]]");
 
-    exprs.push_back(div1);
-    exprs.push_back(div2);
-
-    std::sort(exprs.begin(), exprs.end());
-
-    auto div1_iter = std::find(exprs.cbegin(), exprs.cend(), div1);    
-    auto div2_iter = std::find(exprs.cbegin(), exprs.cend(), div2);
-
-    assert(div1_iter != exprs.cend());
-    assert(div2_iter != exprs.cend());
-    
-    const auto div1_idx = std::distance(exprs.cbegin(), div1_iter) + 1;
-    const auto div2_idx = std::distance(exprs.cbegin(), div2_iter) + 1;
+    const auto div1_idx = std::ranges::count_if(exprs, [ &div1 ](const auto& e) { return e < div1; }) + 1;
+    const auto div2_idx = std::ranges::count_if(exprs, [ &div2 ](const auto& e) { return e < div2; }) + 2;
 
     return div1_idx * div2_idx;
 }
