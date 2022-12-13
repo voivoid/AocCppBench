@@ -23,11 +23,12 @@ struct command
     size_t to;
 };
 
-}
+}  // namespace
 
 BOOST_FUSION_ADAPT_STRUCT(command, to_move, from, to)
 
-namespace {
+namespace
+{
 
 void parse_crates_line(const std::string& line, crate_stacks& stacks)
 {
@@ -70,14 +71,15 @@ auto make_parser()
 {
     namespace x3 = boost::spirit::x3;
 
-    const auto cmd_parser = x3::rule<struct _cmd, command>{} = x3::lit("move") > aoc::x3_size_t_ > x3::lit("from") > aoc::x3_size_t_ > x3::lit("to") > aoc::x3_size_t_;
+    const auto cmd_parser = x3::rule<struct _cmd, command>{} =
+        x3::lit("move") > aoc::x3_size_t_ > x3::lit("from") > aoc::x3_size_t_ > x3::lit("to") > aoc::x3_size_t_;
     const auto cmd_action = [](auto& ctx)
     {
         --x3::_attr(ctx).from;
         --x3::_attr(ctx).to;
     };
 
-    return cmd_parser[cmd_action];
+    return cmd_parser[ cmd_action ];
 }
 
 void move_1_crate(const size_t from, const size_t to, crate_stacks& stacks)
@@ -124,11 +126,7 @@ std::string solve(std::istream& input)
 {
     crate_stacks stacks = parse_starting_crates(input);
 
-    aoc::parse_each_line_and_exec(input,
-                                  make_parser(),
-                                  [&stacks](const command& cmd) {
-                                      exec(cmd, stacks);
-                                  });
+    aoc::parse_each_line_and_exec(input, make_parser(), [ &stacks ](const command& cmd) { exec(cmd, stacks); });
 
     const std::string top_crates = get_top_crates(stacks);
     return top_crates;

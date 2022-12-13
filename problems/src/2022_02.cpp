@@ -1,7 +1,5 @@
 #include "aoc/problems/2022_02.h"
 
-#include "input.h"
-
 #include <cassert>
 #include <iostream>
 

@@ -14,7 +14,8 @@ set(SOURCES
     src/2022_09.cpp
     src/2022_10.cpp
     src/2022_11.cpp
-    src/2022_12.cpp)
+    src/2022_12.cpp
+    src/2022_13.cpp)
 
 add_executable(aoc_tests ${SOURCES})
 target_include_directories(aoc_tests PRIVATE inc)
@@ -51,3 +52,4 @@ add_aoc_test(2022_08 1713 268464)
 add_aoc_test(2022_09 6464 2604)
 add_aoc_test(2022_10 12520 "####\\.#\\.\\.#\\.###\\.\\.####\\.###\\.\\.\\.\\.##\\.\\.##\\.\\.#\\.\\.\\.\\..*")
 add_aoc_test(2022_12 408 399)
+add_aoc_test(2022_13 5198 22344)

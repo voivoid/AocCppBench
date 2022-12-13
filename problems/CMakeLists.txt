@@ -33,10 +33,10 @@ set(SOURCES
     src/2022_11.cpp
     inc/aoc/problems/2022_12.h
     src/2022_12.cpp
+    inc/aoc/problems/2022_13.h
+    src/2022_13.cpp
     src/coord.h
     src/ensure.h
-    src/input.h
-    src/input.cpp
     src/parse.h
 )
 

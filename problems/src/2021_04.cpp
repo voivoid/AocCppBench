@@ -1,7 +1,6 @@
 #include "aoc/problems/2021_04.h"
 
 #include "ensure.h"
-#include "input.h"
 #include "parse.h"
 
 #include <array>
@@ -44,29 +43,35 @@ std::vector<number> parse_random_numbers(std::istream& input)
     return parsed_nums;
 }
 
+std::istream& operator>>(std::istream& input, board& board)
+{
+    for (size_t col = 0; col < 5; ++col)
+    {
+        for (size_t row = 0; row < 5; ++row)
+        {
+            number num;
+            input >> num;
+
+            if (!input)
+                return input;
+
+            auto& pos = board.nums_position[ num ];
+            pos.col   = col;
+            pos.row   = row;
+        }
+    }
+
+    return input;
+}
+
 boards parse_boards(std::istream& input)
 {
     boards boards;
 
-    while (input.peek() != std::char_traits<char>::eof())
+    board board;
+    while (input >> board)
     {
-        board board;
-        for (size_t col = 0; col < 5; ++col)
-        {
-            for (size_t row = 0; row < 5; ++row)
-            {
-                number num;
-                input >> num;
-
-                auto& pos = board.nums_position[ num ];
-                pos.col   = col;
-                pos.row   = row;
-            }
-        }
-
         boards.push_back(std::move(board));
-
-        aoc::skip_eol(input);
     }
 
     return boards;
