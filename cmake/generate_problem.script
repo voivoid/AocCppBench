@@ -1,0 +1,105 @@
+if(NOT ${CMAKE_ARGC} EQUAL 4)
+    message(FATAL_ERROR "Invalid arguments")
+endif()
+
+message("Generating problem ${CMAKE_ARGV3}")
+set (problem ${CMAKE_ARGV3})
+string(REGEX MATCHALL "([0-9]+)_([0-9]+)" parsed_problem ${problem})
+
+set(problem_year ${CMAKE_MATCH_1})
+set(problem_id ${CMAKE_MATCH_2})
+math(EXPR problem_num ${problem_id})
+
+set (root "${CMAKE_CURRENT_SOURCE_DIR}/../")
+set (problems_dir "${root}/problems")
+set (problems_inc_dir "${problems_dir}/inc/aoc/problems")
+set (problems_src_dir "${problems_dir}/src/")
+set (tests_dir "${root}/tests")
+
+set(header_content [=[
+#pragma once
+
+#include "aoc/problems/register.h"
+
+#include <cstddef>
+#include <iosfwd>
+
+namespace aoc
+{
+namespace year_PROBLEM_YEAR
+{
+
+size_t solvePROBLEM_ID_a(std::istream& input)CPP_SEMICOLON
+size_t solvePROBLEM_ID_b(std::istream& input)CPP_SEMICOLON
+
+}  // namespace year_PROBLEM_YEAR
+}  // namespace aoc
+
+AOC_REGISTER_PROBLEM(PROBLEM_YEAR_PROBLEM_ID_a, aoc::year_PROBLEM_YEAR::solvePROBLEM_ID_a, PROBLEM_YEAR, PROBLEM_NUM)
+AOC_REGISTER_PROBLEM(PROBLEM_YEAR_PROBLEM_ID_b, aoc::year_PROBLEM_YEAR::solvePROBLEM_ID_b, PROBLEM_YEAR, PROBLEM_NUM)
+]=])
+
+string(REPLACE PROBLEM_YEAR ${problem_year} header_content ${header_content})
+string(REPLACE PROBLEM_ID ${problem_id} header_content ${header_content})
+string(REPLACE PROBLEM_NUM ${problem_num} header_content ${header_content})
+string(REPLACE CPP_SEMICOLON "\;" header_content ${header_content})
+
+set(source_content [=[
+#include "aoc/problems/PROBLEM_YEAR_PROBLEM_ID.h"
+
+namespace aoc
+{
+namespace year_PROBLEM_YEAR
+{
+
+size_t solvePROBLEM_ID_a(std::istream& /*input*/)
+{
+    return 0CPP_SEMICOLON
+}
+
+size_t solvePROBLEM_ID_b(std::istream& /*input*/)
+{
+    return 0CPP_SEMICOLON
+}
+
+}  // namespace year_PROBLEM_YEAR
+}  // namespace aoc
+]=])
+
+string(REPLACE PROBLEM_YEAR ${problem_year} source_content ${source_content})
+string(REPLACE PROBLEM_ID ${problem_id} source_content ${source_content})
+string(REPLACE CPP_SEMICOLON "\;" source_content ${source_content})
+
+file(APPEND "${problems_inc_dir}/all.h" "#include \"aoc/problems/${problem}.h\"\n")
+file(WRITE "${problems_inc_dir}/${problem}.h" ${header_content})
+file(WRITE "${problems_src_dir}/${problem}.cpp" ${source_content})
+
+file(READ "${problems_dir}/CMakeLists.txt" cmakelist)
+string(REPLACE "# ADD NEW PROBLEMS HERE" "    inc/aoc/problems/${problem}.h src/${problem}.cpp\n# ADD NEW PROBLEMS HERE" cmakelist ${cmakelist})
+file(WRITE "${problems_dir}/CMakeLists.txt" ${cmakelist})
+
+file(READ "${tests_dir}/CMakeLists.txt" cmakelist)
+string(REPLACE "# ADD NEW TESTS HERE" "    src/${problem}.cpp\n# ADD NEW TESTS HERE" cmakelist ${cmakelist})
+file(WRITE "${tests_dir}/CMakeLists.txt" ${cmakelist})
+file(APPEND "${tests_dir}/CMakeLists.txt" "add_aoc_test(${problem} 0 0)\n")
+
+set(test_content [=[
+#include <gtest/gtest.h>
+
+#include "aoc/problems/PROBLEM_YEAR_PROBLEM_ID.h"
+#include "aoc/tests.h"
+
+TEST(AocPROBLEM_YEAR, problemPROBLEM_ID)
+{
+    const char* const input = R"()"CPP_SEMICOLON
+
+    EXPECT_EQ(solve(input, &aoc::year_PROBLEM_YEAR::solvePROBLEM_ID_a), 0)CPP_SEMICOLON
+    EXPECT_EQ(solve(input, &aoc::year_PROBLEM_YEAR::solvePROBLEM_ID_b), 0)CPP_SEMICOLON
+}
+]=])
+
+string(REPLACE PROBLEM_YEAR ${problem_year} test_content ${test_content})
+string(REPLACE PROBLEM_ID ${problem_id} test_content ${test_content})
+string(REPLACE CPP_SEMICOLON "\;" test_content ${test_content})
+
+file(WRITE "${tests_dir}/src/${problem}.cpp" ${test_content})
