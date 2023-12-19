@@ -179,12 +179,6 @@ size_t solve10_b(std::istream& input)
 
     const auto loop_map = get_loop_map(start_coord, maze2d);
 
-    struct pipe
-    {
-        size_t x;
-        char tile;
-    };
-
     size_t enclosed_sum = 0;
 
     for (const auto& [ y, row ] : loop_map)

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <array>
+#include <algorithm>
+#include <functional>
 
 #include <boost/container/static_vector.hpp>
 #include <boost/functional/hash.hpp>
@@ -54,7 +55,9 @@ bool operator!=(const generic_point<T>& l1, const generic_point<T>& l2)
 template <typename T>
 size_t manhattan_distance(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
 {
-    return std::abs(l1.x - l2.x) + std::abs(l1.y - l2.y);
+    const auto [ xmin, xmax ] = std::minmax(l1.x, l2.x);
+    const auto [ ymin, ymax ] = std::minmax(l1.y, l2.y);
+    return (xmax - xmin) + (ymax - ymin);
 }
 
 template <bool include_diagonal, typename T>
