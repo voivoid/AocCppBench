@@ -8,8 +8,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "boost/fusion/adapted/struct.hpp"
 #include <boost/container/static_vector.hpp>
+#include <boost/fusion/adapted/struct.hpp>
 
 namespace
 {

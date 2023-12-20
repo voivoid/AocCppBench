@@ -9,7 +9,7 @@
 #include <ranges>
 #include <vector>
 
-#include "boost/fusion/adapted/struct.hpp"
+#include <boost/fusion/adapted/struct.hpp>
 
 namespace
 {

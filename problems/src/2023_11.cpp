@@ -24,10 +24,7 @@ std::vector<aoc::upoint> parse_galaxies(std::istream& input)
 
         if (c != '\n')
         {
-            if (c == '#')
-            {
-                galaxies.emplace_back(x, y);
-            }
+            if (c == '#') { galaxies.emplace_back(x, y); }
 
             ++x;
         }

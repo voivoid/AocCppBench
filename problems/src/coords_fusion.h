@@ -1,6 +1,6 @@
 #pragma once
 
-#include "boost/fusion/adapted/struct.hpp"
+#include <boost/fusion/adapted/struct.hpp>
 
 BOOST_FUSION_ADAPT_STRUCT(aoc::upoint, x, y);
 BOOST_FUSION_ADAPT_STRUCT(aoc::point, x, y);

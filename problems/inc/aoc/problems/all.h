@@ -63,3 +63,4 @@ std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems
 #include "aoc/problems/2023_09.h"
 #include "aoc/problems/2023_10.h"
 #include "aoc/problems/2023_11.h"
+#include "aoc/problems/2023_12.h"
