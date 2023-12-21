@@ -9,6 +9,8 @@
 #include <ranges>
 #include <vector>
 
+#include <boost/hana/functional/flip.hpp>
+
 namespace
 {
 auto make_parser()
@@ -27,12 +29,12 @@ int calc_extrapolation(std::vector<int> ns, const bool reverse_input)
     {
         sum += ns.back();
 
-        const auto pairs = active_rng | std::ranges::views::slide(2);
-        const auto diffs = pairs | std::ranges::views::transform([](const auto& pair) { return pair[ 1 ] - pair[ 0 ]; });
+        const auto diffs = active_rng | std::ranges::views::pairwise_transform(boost::hana::flip(std::minus{}));
 
         std::ranges::copy(diffs | std::ranges::views::reverse, ns.rbegin());
 
-        // active_rng has one fewer value than the input sequence because at each step it considers two numbers from the input
+        // active_rng has one fewer value than the input sequence because at each step it considers
+        // two numbers from the input
         active_rng = active_rng.subspan(1);
     }
 

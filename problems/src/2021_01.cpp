@@ -5,6 +5,8 @@
 #include <ranges>
 #include <vector>
 
+#include <boost/hana/functional/flip.hpp>
+
 using namespace std::ranges;
 
 namespace
@@ -12,13 +14,11 @@ namespace
 template <size_t window_size>
 size_t solve(std::istream& input)
 {
-    const auto depths = istream_view<int>(input) | to<std::vector<int>>();
+    const auto depths = istream_view<int>(input) | std::ranges::to<std::vector<size_t>>();
 
-    const auto measures = depths | views::slide(window_size) |
-                          views::transform([](const auto triple) { return fold_left(triple, 0, std::plus{}); });
+    const auto measures = depths | views::adjacent_transform<window_size>([](auto... ds) { return (... + ds); });
 
-    return std::ranges::count_if(measures | views::slide(2),
-                                 [](const auto measure_pair) { return measure_pair[ 1 ] > measure_pair[ 0 ]; });
+    return std::ranges::count(measures | views::pairwise_transform(boost::hana::flip(std::greater{})), true);
 }
 }  // namespace
 

@@ -81,9 +81,10 @@ size_t solve08_b(std::istream& input)
 
     const auto nodes_map = parse_nodes_map(input);
 
-    auto cycles = nodes_map | std::ranges::views::keys |
-                  std::ranges::views::filter([](const node& n) { return n.ends_with('A'); }) |
-                  std::ranges::views::transform([ & ](const node& start) { return count_steps(start, turns, nodes_map); });
+    auto cycles =
+        nodes_map | std::ranges::views::keys |
+        std::ranges::views::filter([](const node& n) { return n.ends_with('A'); }) |
+        std::ranges::views::transform([ & ](const node& start) { return count_steps(start, turns, nodes_map); });
 
     const auto total_steps = boost::integer::lcm_range(cycles.cbegin(), cycles.cend()).first;
 

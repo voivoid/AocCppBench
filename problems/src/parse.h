@@ -93,7 +93,8 @@ template <typename Attr, typename Parser, typename Skipper>
 std::optional<Attr> x3_parse_attr(std::istream& input, const Parser& parser, const Skipper& skipper)
 {
     input.unsetf(std::ios::skipws);
-    return x3_parse_attr<Attr>(boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper);
+    return x3_parse_attr<Attr>(
+        boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper);
 }
 
 constexpr auto x3_size_t_ = boost::spirit::x3::ulong_;
@@ -156,8 +157,9 @@ struct parser_iterator
 
         if (line[ chars_read - 1 ] == 0) --chars_read;
 
-        m_attr               = {};
-        const bool is_parsed = aoc::x3_parse(std::begin(line), std::begin(line) + chars_read, *m_parser, *m_skipper, m_attr);
+        m_attr = {};
+        const bool is_parsed =
+            aoc::x3_parse(std::begin(line), std::begin(line) + chars_read, *m_parser, *m_skipper, m_attr);
         if (!is_parsed) throw std::runtime_error("failed to parse");
     }
 

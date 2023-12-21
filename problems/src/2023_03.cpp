@@ -58,13 +58,14 @@ size_t read_number(const schematic& schematic, const size_t number_rightmost_x, 
     return number;
 }
 
-boost::container::static_vector<size_t, 9> get_adjacent_numbers(const schematic& schematic, const size_t x, const size_t y)
+boost::container::static_vector<size_t, 9>
+    get_adjacent_numbers(const schematic& schematic, const size_t x, const size_t y)
 {
     const auto width  = schematic[ 0 ].size();
     const auto height = schematic.size();
 
-    std::unordered_set<aoc::upoint>
-        numbers_rightmost_coords;  // use unordered_set to get rid of possible rightmost coord duplicates
+    std::unordered_set<aoc::upoint> numbers_rightmost_coords;  // use unordered_set to get rid of possible rightmost
+                                                               // coord duplicates
     for (const auto neighbour_coord : aoc::get_neighbours(x, y, { { 0, 0 }, { width, height } }))
     {
         const auto neighbour_char = schematic[ neighbour_coord.y ][ neighbour_coord.x ];

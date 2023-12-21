@@ -111,8 +111,8 @@ size_t calc_arrangements(const row& row, traversal_state state, visited_map& vis
 
     if (state.current_spring_idx == total_springs)
     {
-        const bool success_match =
-            state.current_damage_group_idx == total_damage_groups && (!state.match_in_progress || state.match_in_progress == 0);
+        const bool success_match = state.current_damage_group_idx == total_damage_groups &&
+                                   (!state.match_in_progress || state.match_in_progress == 0);
 
         return success_match ? 1 : 0;
     }
@@ -163,10 +163,10 @@ size_t calc_row_arrangements1(const row& row)
 
 size_t calc_row_arrangements2(const row& row)
 {
-    std::string unfolded_springs =
-        std::ranges::views::repeat(row.springs, 5) | std::ranges::views::join_with('?') | std::ranges::to<std::string>();
-    std::vector<size_t> unfolded_damage_groups =
-        std::ranges::views::repeat(row.damage_groups, 5) | std::ranges::views::join | std::ranges::to<std::vector<size_t>>();
+    std::string unfolded_springs = std::ranges::views::repeat(row.springs, 5) | std::ranges::views::join_with('?') |
+                                   std::ranges::to<std::string>();
+    std::vector<size_t> unfolded_damage_groups = std::ranges::views::repeat(row.damage_groups, 5) |
+                                                 std::ranges::views::join | std::ranges::to<std::vector<size_t>>();
 
     return calc_row_arrangements1({ std::move(unfolded_springs), std::move(unfolded_damage_groups) });
 }
@@ -174,7 +174,7 @@ size_t calc_row_arrangements2(const row& row)
 template <auto calc>
 size_t solve(std::istream& input)
 {
-    const auto rows = aoc::parse_lines<row>(input, make_row_parser());
+    const auto rows         = aoc::parse_lines<row>(input, make_row_parser());
     const auto arrangements = rows | std::ranges::views::transform(calc);
     return std::ranges::fold_left(arrangements, size_t(0), std::plus{});
 }

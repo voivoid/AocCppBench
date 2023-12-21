@@ -50,7 +50,8 @@ hand_type get_hand_type(const hand& hand)
     const auto jokers_num  = jokers_iter == cards_map.end() ? 0 : jokers_iter->second;
     if (jokers_num) cards_map.erase(jokers_iter);
 
-    auto card_counters = cards_map | std::ranges::views::values | std::ranges::to<boost::container::static_vector<size_t, 5>>();
+    auto card_counters =
+        cards_map | std::ranges::views::values | std::ranges::to<boost::container::static_vector<size_t, 5>>();
     std::ranges::sort(card_counters, std::greater{});
 
     if (jokers_num)
@@ -171,8 +172,8 @@ auto make_input_parser(const bool use_jokers = false)
 
 size_t solve(std::istream& input, const bool use_jokers = false)
 {
-    auto inputs =
-        aoc::parse_lines<parsed_input>(input, make_input_parser(use_jokers)) | std::ranges::to<std::vector<parsed_input>>();
+    auto inputs = aoc::parse_lines<parsed_input>(input, make_input_parser(use_jokers)) |
+                  std::ranges::to<std::vector<parsed_input>>();
     std::ranges::sort(inputs, hand_lt_comparer{}, &parsed_input::hand);
 
     const auto ranked_cards = std::ranges::views::zip(inputs, std::ranges::views::iota(1));

@@ -21,7 +21,9 @@ using Digit = size_t;
 
 boost::spirit::x3::symbols<Digit> make_digits_map(const digits_parser_mode mode)
 {
-    static constexpr const char* digit_words[]{ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+    static constexpr const char* digit_words[]{
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+    };
 
     boost::spirit::x3::symbols<Digit> symbols_map{ { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 },
                                                    { "6", 6 }, { "7", 7 }, { "8", 8 }, { "9", 9 } };
@@ -63,10 +65,12 @@ auto make_digits_and_words_parsers()
 template <typename Parser>
 size_t calc_extrapolation(std::string_view input_line, const Parser& direct_parser, const Parser& reverse_parser)
 {
-    auto digit1 = aoc::x3_parse_attr<Digit>(input_line.cbegin(), input_line.cend(), direct_parser, boost::spirit::x3::space);
+    auto digit1 =
+        aoc::x3_parse_attr<Digit>(input_line.cbegin(), input_line.cend(), direct_parser, boost::spirit::x3::space);
     ensure(digit1);
 
-    auto digit2 = aoc::x3_parse_attr<Digit>(input_line.crbegin(), input_line.crend(), reverse_parser, boost::spirit::x3::space);
+    auto digit2 =
+        aoc::x3_parse_attr<Digit>(input_line.crbegin(), input_line.crend(), reverse_parser, boost::spirit::x3::space);
     ensure(digit2);
 
     assert(*digit1 <= 9);
@@ -80,7 +84,8 @@ size_t solve(std::istream& input, const Parser& direct_parser, const Parser& rev
 {
     auto calc_line_f = std::bind_back(&calc_extrapolation<Parser>, std::ref(direct_parser), std::ref(reverse_parser));
     auto input_lines = std::ranges::views::istream<std::string>(input);
-    const auto sum   = std::ranges::fold_left(input_lines | std::ranges::views::transform(calc_line_f), size_t(0), std::plus{});
+    const auto sum =
+        std::ranges::fold_left(input_lines | std::ranges::views::transform(calc_line_f), size_t(0), std::plus{});
 
     return sum;
 }

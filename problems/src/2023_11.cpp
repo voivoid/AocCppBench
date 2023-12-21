@@ -90,7 +90,8 @@ size_t solve(std::istream& input, const size_t empty_row_mul)
     {
         for (auto permut_iter2 = std::next(permut_iter1); permut_iter2 != galaxies.cend(); ++permut_iter2)
         {
-            distance_sum += calc_min_distance(*permut_iter1, *permut_iter2, empty_cols_scan, empty_rows_scan, empty_row_mul);
+            distance_sum +=
+                calc_min_distance(*permut_iter1, *permut_iter2, empty_cols_scan, empty_rows_scan, empty_row_mul);
         }
     }
 

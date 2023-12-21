@@ -59,7 +59,9 @@ size_t calc_score_simple(const card& card, const std::vector<::card>& /*cards*/)
     return matches == 0 ? 0 : (1 << (matches - 1));
 }
 
-size_t calc_score_recursive(const card& card, const std::vector<::card>& cards, std::unordered_map<card_id, size_t>& cards_cache)
+size_t calc_score_recursive(const card& card,
+                            const std::vector<::card>& cards,
+                            std::unordered_map<card_id, size_t>& cards_cache)
 {
     auto cache_iter = cards_cache.find(card.id);
     if (cache_iter != cards_cache.cend()) { return cache_iter->second; }

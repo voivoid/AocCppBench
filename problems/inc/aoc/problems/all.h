@@ -42,13 +42,13 @@ struct problem_registrator
 }  // namespace aoc
 
 std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems;
-#define AOC_REGISTER_PROBLEM(PROBLEM_ID, FUNCTION, YEAR, DAY)                                                                    \
-    namespace aoc                                                                                                                \
-    {                                                                                                                            \
-    problem_registrator p_##PROBLEM_ID{ #PROBLEM_ID,                                                                             \
-                                        &problem_registrator::adapt_to_ostream<&FUNCTION>,                                       \
-                                        size_t{ YEAR },                                                                          \
-                                        size_t{ DAY } };                                                                         \
+#define AOC_REGISTER_PROBLEM(PROBLEM_ID, FUNCTION, YEAR, DAY)                                                          \
+    namespace aoc                                                                                                      \
+    {                                                                                                                  \
+    problem_registrator p_##PROBLEM_ID{ #PROBLEM_ID,                                                                   \
+                                        &problem_registrator::adapt_to_ostream<&FUNCTION>,                             \
+                                        size_t{ YEAR },                                                                \
+                                        size_t{ DAY } };                                                               \
     }
 
 #include "aoc/problems/2021_01.h"
@@ -64,3 +64,4 @@ std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems
 #include "aoc/problems/2023_10.h"
 #include "aoc/problems/2023_11.h"
 #include "aoc/problems/2023_12.h"
+#include "aoc/problems/2023_13.h"

@@ -40,9 +40,10 @@ almanac parse_almanac(std::istream& input)
     namespace x3 = boost::spirit::x3;
 
     const auto seeds_parser = x3::lit("seeds:") > +aoc::x3_size_t_;
-    const auto parse_range = x3::rule<struct _range, seed_range>{} = aoc::x3_size_t_ > aoc::x3_size_t_ > aoc::x3_size_t_;
-    const auto parse_ranges =
-        x3::omit[ +x3::alpha ] > x3::lit("-to-") > x3::omit[ x3::lexeme[ +x3::alpha ] ] > x3::lit("map:") > +parse_range;
+    const auto parse_range  = x3::rule<struct _range, seed_range>{} =
+        aoc::x3_size_t_ > aoc::x3_size_t_ > aoc::x3_size_t_;
+    const auto parse_ranges = x3::omit[ +x3::alpha ] > x3::lit("-to-") > x3::omit[ x3::lexeme[ +x3::alpha ] ] >
+                              x3::lit("map:") > +parse_range;
     const auto parser = seeds_parser > *parse_ranges;
 
     auto result = aoc::x3_parse_attr<almanac>(input, parser, x3::space);
@@ -66,7 +67,10 @@ map_result map_seed_id(const seed_id id, const std::vector<seed_range>& ranges)
         {
             return { id - range.destination + range.source, range.length - (id - range.destination) };
         }
-        else if (id < range.destination) { seeds_to_a_next_range = std::min(seeds_to_a_next_range, range.destination - id); }
+        else if (id < range.destination)
+        {
+            seeds_to_a_next_range = std::min(seeds_to_a_next_range, range.destination - id);
+        }
     }
 
     return { id, seeds_to_a_next_range };
@@ -116,8 +120,8 @@ size_t solve05_a(std::istream& input)
 {
     const auto almanac = parse_almanac(input);
 
-    auto seeds_range =
-        almanac.seeds_ids | std::ranges::views::transform([](const auto seed_id) { return std::make_pair(seed_id, 1); });
+    auto seeds_range = almanac.seeds_ids |
+                       std::ranges::views::transform([](const auto seed_id) { return std::make_pair(seed_id, 1); });
 
     return solve(almanac, seeds_range);
 }
