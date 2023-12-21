@@ -4,6 +4,7 @@
 #include "parse.h"
 
 #include <execution>
+#include <istream>
 #include <numeric>
 #include <optional>
 #include <queue>

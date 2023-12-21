@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <istream>
 #include <limits>
 #include <ranges>
 #include <vector>

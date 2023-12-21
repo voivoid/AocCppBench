@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <istream>
 #include <ranges>
 #include <set>
 #include <unordered_set>

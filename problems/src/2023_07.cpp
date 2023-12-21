@@ -4,6 +4,7 @@
 #include "parse.h"
 
 #include <algorithm>
+#include <istream>
 #include <ranges>
 #include <string>
 #include <unordered_map>

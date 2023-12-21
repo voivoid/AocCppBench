@@ -9,6 +9,14 @@
 namespace aoc
 {
 
+enum class direction
+{
+    north = 0,
+    east,
+    south,
+    west
+};
+
 template <typename Coord>
 struct generic_point
 {

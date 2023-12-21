@@ -3,6 +3,7 @@
 #include "coords.h"
 
 #include <algorithm>
+#include <istream>
 #include <numeric>
 #include <ranges>
 #include <set>

@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <istream>
 #include <ranges>
 #include <tuple>
 #include <vector>

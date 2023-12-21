@@ -51,7 +51,7 @@ std::vector<size_t> convert_pattern_to_numbers(const std::mdspan<const char, std
         std::bitset<max_width> bs;
 
         size_t current_bit = 0;
-        for (const auto [ y, x ] : colrows)
+        for (const auto [ x, y ] : colrows)
         {
             const auto c        = pattern[ std::array{ y, x } ];
             bs[ current_bit++ ] = c == '#' ? 1 : 0;
@@ -68,19 +68,13 @@ std::pair<std::vector<size_t>, std::vector<size_t>> convert_pattern_to_numbers(c
 {
     std::mdspan data(p.str.data(), p.height, p.width);
 
-    const auto xs = std::ranges::views::iota(size_t(0), p.width);
-    const auto ys = std::ranges::views::iota(size_t(0), p.height);
+    using namespace std::ranges;
 
-    auto rows_indices =
-        ys | std::ranges::views::transform(
-                 [ xs ](const auto y)
-                 { return xs | std::ranges::views::transform([ y ](const auto x) { return std::make_pair(y, x); }); });
+    const auto xs = views::iota(size_t(0), p.width);
+    const auto ys = views::iota(size_t(0), p.height);
 
-    auto cols_indices =
-        xs | std::ranges::views::transform(
-                 [ ys ](const auto x)
-                 { return ys | std::ranges::views::transform([ x ](const auto y) { return std::make_pair(y, x); }); });
-
+    auto rows_indices = ys | views::transform([ xs ](const auto y) { return views::zip(xs, views::repeat(y)); });
+    auto cols_indices = xs | views::transform([ ys ](const auto x) { return views::zip(views::repeat(x), ys); });
 
     return { convert_pattern_to_numbers(data, rows_indices), convert_pattern_to_numbers(data, cols_indices) };
 }
