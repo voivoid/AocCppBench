@@ -213,4 +213,23 @@ auto parse_lines(std::istream& input, const Parser& parser)
     return parse_lines<Attr>(input, parser, boost::spirit::x3::space);
 }
 
+template <char delimiter>
+class getliner
+{
+public:
+    friend std::istream& operator>>(std::istream& is, getliner& l)
+    {
+        std::getline(is, l.m_line, delimiter);
+        return is;
+    }
+
+    operator const std::string&() const
+    {
+        return m_line;
+    }
+
+private:
+    std::string m_line;
+};
+
 }  // namespace aoc

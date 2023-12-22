@@ -16,6 +16,7 @@ set(SOURCES
     inc/aoc/problems/2023_12.h src/2023_12.cpp
     inc/aoc/problems/2023_13.h src/2023_13.cpp
     inc/aoc/problems/2023_14.h src/2023_14.cpp
+    inc/aoc/problems/2023_15.h src/2023_15.cpp
 # ADD NEW PROBLEMS HERE
     src/coords.h
     src/coords_fusion.h
