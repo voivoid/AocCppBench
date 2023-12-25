@@ -27,7 +27,7 @@ struct generic_point
 template <typename T>
 struct generic_rect
 {
-    generic_rect(generic_point<T> left_top, generic_point<T> right_bottom) :
+    generic_rect(aoc::generic_point<T> left_top, aoc::generic_point<T> right_bottom) :
         left(left_top.x), right(right_bottom.x), top(left_top.y), bottom(right_bottom.y)
     {
     }
@@ -38,26 +38,49 @@ struct generic_rect
     T bottom;
 };
 
-using upoint = generic_point<size_t>;
-using point  = generic_point<int>;
-using rect   = generic_rect<size_t>;
+using upoint = aoc::generic_point<size_t>;
+using point  = aoc::generic_point<int>;
+using rect   = aoc::generic_rect<size_t>;
 
 template <typename T>
-bool operator<(const generic_point<T>& l1, const generic_point<T>& l2)
+bool operator<(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
 {
     return l1.x != l2.x ? l1.x < l2.x : l1.y < l2.y;
 }
 
 template <typename T>
-bool operator==(const generic_point<T>& l1, const generic_point<T>& l2)
+bool operator==(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
 {
     return l1.x == l2.x && l1.y == l2.y;
 }
 
 template <typename T>
-bool operator!=(const generic_point<T>& l1, const generic_point<T>& l2)
+bool operator!=(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
 {
     return !(l1 == l2);
+}
+
+inline bool is_horizontal_direction(const aoc::direction dir)
+{
+    return dir == direction::east || dir == direction::west;
+}
+
+inline bool is_vertical_direction(const aoc::direction dir)
+{
+    return dir == direction::north || dir == direction::south;
+}
+
+inline aoc::direction get_opposite_direction(const aoc::direction dir)
+{
+    switch (dir)
+    {
+        case direction::north: return direction::south;
+        case direction::east: return direction::west;
+        case direction::west: return direction::east;
+        case direction::south: return direction::north;
+    }
+
+    std::unreachable();
 }
 
 template <typename T>
@@ -68,11 +91,63 @@ size_t manhattan_distance(const aoc::generic_point<T>& l1, const aoc::generic_po
     return (xmax - xmin) + (ymax - ymin);
 }
 
+inline aoc::direction rotate_left(const aoc::direction dir)
+{
+    switch (dir)
+    {
+        case direction::north: return direction::west;
+        case direction::west: return direction::south;
+        case direction::south: return direction::east;
+        case direction::east: return direction::north;
+    }
+
+    std::unreachable();
+}
+
+inline aoc::direction rotate_right(const aoc::direction dir)
+{
+    switch (dir)
+    {
+        case direction::north: return direction::east;
+        case direction::east: return direction::south;
+        case direction::south: return direction::west;
+        case direction::west: return direction::north;
+    }
+
+    std::unreachable();
+}
+
+template <typename T>
+std::optional<aoc::generic_point<T>> get_next_pos(const aoc::generic_point<T>& p,
+                                                  const aoc::direction dir,
+                                                  const aoc::generic_rect<T>& bounding_rect,
+                                                  size_t steps = 1)
+{
+    assert(steps > 0);
+    switch (dir)
+    {
+        case direction::north:
+            if (p.y > (bounding_rect.top + steps - 1)) return { { p.x, p.y - steps } };
+            return {};
+        case direction::east:
+            if (p.x < (bounding_rect.right + 1 - steps)) return { { p.x + steps, p.y } };
+            return {};
+        case direction::south:
+            if (p.y < (bounding_rect.bottom + 1 - steps)) return { { p.x, p.y + steps } };
+            return {};
+        case direction::west:
+            if (p.x > (bounding_rect.left + steps - 1)) return { { p.x - steps, p.y } };
+            return {};
+    };
+
+    return {};
+}
+
 template <bool include_diagonal, typename T>
-using neighbours = boost::container::static_vector<generic_point<T>, include_diagonal ? 8 : 4>;
+using neighbours = boost::container::static_vector<aoc::generic_point<T>, include_diagonal ? 8 : 4>;
 
 template <bool include_diagonal = true, typename T>
-neighbours<include_diagonal, T> get_neighbours(const T x, const T y, const generic_rect<T>& bounding_rect)
+neighbours<include_diagonal, T> get_neighbours(const T x, const T y, const aoc::generic_rect<T>& bounding_rect)
 {
     const auto min_x = bounding_rect.left;
     const auto max_x = bounding_rect.right;
@@ -113,7 +188,8 @@ neighbours<include_diagonal, T> get_neighbours(const T x, const T y, const gener
 }
 
 template <bool include_diagonal = true, typename T>
-neighbours<include_diagonal, T> get_neighbours(const generic_point<T> loc, const generic_rect<T>& bounding_rect)
+neighbours<include_diagonal, T> get_neighbours(const aoc::generic_point<T> loc,
+                                               const aoc::generic_rect<T>& bounding_rect)
 {
     return get_neighbours<include_diagonal>(loc.x, loc.y, bounding_rect);
 }

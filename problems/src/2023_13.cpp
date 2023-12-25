@@ -1,10 +1,11 @@
 #include "aoc/problems/2023_13.h"
 
+#include "grid.h"
+
 #include <algorithm>
 #include <bitset>
 #include <cassert>
 #include <istream>
-#include <mdspan>
 #include <numeric>
 #include <optional>
 #include <ranges>
@@ -13,35 +14,9 @@
 
 namespace
 {
-struct pattern
-{
-    std::string str;
-    size_t width;
-    size_t height;
-};
+using pattern = aoc::grid;
 
-std::istream& operator>>(std::istream& is, pattern& p)
-{
-    p.str.clear();
-    p.height = 0;
-    p.width  = 0;
-
-    std::string line;
-    while (std::getline(is, line) && !line.empty())
-    {
-        p.str.append(line);
-
-        p.width = line.size();
-        ++p.height;
-    }
-
-    if (!p.str.empty()) { is.clear(); }
-
-    return is;
-}
-
-std::vector<size_t> convert_pattern_to_numbers(const std::mdspan<const char, std::dextents<size_t, 2>> pattern,
-                                               auto indices)
+std::vector<size_t> convert_pattern_to_numbers(const pattern& pattern, auto indices)
 {
     constexpr size_t max_width = sizeof(size_t) * 8;
 
@@ -53,7 +28,7 @@ std::vector<size_t> convert_pattern_to_numbers(const std::mdspan<const char, std
         size_t current_bit = 0;
         for (const auto [ x, y ] : colrows)
         {
-            const auto c        = pattern[ std::array{ y, x } ];
+            const auto c        = pattern(x, y);
             bs[ current_bit++ ] = c == '#' ? 1 : 0;
         }
 
@@ -66,17 +41,15 @@ std::vector<size_t> convert_pattern_to_numbers(const std::mdspan<const char, std
 
 std::pair<std::vector<size_t>, std::vector<size_t>> convert_pattern_to_numbers(const pattern& p)
 {
-    std::mdspan data(p.str.data(), p.height, p.width);
-
     using namespace std::ranges;
 
-    const auto xs = views::iota(size_t(0), p.width);
-    const auto ys = views::iota(size_t(0), p.height);
+    const auto xs = views::iota(size_t(0), p.get_width());
+    const auto ys = views::iota(size_t(0), p.get_height());
 
     auto rows_indices = ys | views::transform([ xs ](const auto y) { return views::zip(xs, views::repeat(y)); });
     auto cols_indices = xs | views::transform([ ys ](const auto x) { return views::zip(views::repeat(x), ys); });
 
-    return { convert_pattern_to_numbers(data, rows_indices), convert_pattern_to_numbers(data, cols_indices) };
+    return { convert_pattern_to_numbers(p, rows_indices), convert_pattern_to_numbers(p, cols_indices) };
 }
 
 bool can_be_fixed(const size_t a, const size_t b)

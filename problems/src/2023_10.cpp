@@ -1,11 +1,11 @@
 ﻿#include "aoc/problems/2023_10.h"
 
 #include "coords.h"
+#include "grid.h"
 
 #include <algorithm>
 #include <istream>
 #include <map>
-#include <mdspan>
 #include <ranges>
 #include <set>
 #include <string>
@@ -17,12 +17,13 @@ namespace
 {
 
 using coord = size_t;
+using maze  = aoc::grid;
 
-boost::container::static_vector<aoc::upoint, 2> get_next_steps(const coord x, const coord y, const auto& maze2d)
+boost::container::static_vector<aoc::upoint, 2> get_next_steps(const coord x, const coord y, const maze& maze)
 {
-    const auto width        = maze2d.extent(1);
-    const auto height       = maze2d.extent(0);
-    const auto current_tile = maze2d[ std::array{ y, x } ];
+    const auto width        = maze.get_width();
+    const auto height       = maze.get_height();
+    const auto current_tile = maze(x, y);
 
     struct neighbour
     {
@@ -43,7 +44,7 @@ boost::container::static_vector<aoc::upoint, 2> get_next_steps(const coord x, co
         if (nx >= width || ny >= height) continue;
         if (!n.valid_current_pipes.contains(current_tile) && current_tile != 'S') continue;
 
-        const auto next_pipe = maze2d[ std::array{ ny, nx } ];
+        const auto next_pipe = maze(nx, ny);
         if (!n.valid_neighbour_pipes.contains(next_pipe)) continue;
 
         next_steps.push_back(n.next_coord);
@@ -52,21 +53,21 @@ boost::container::static_vector<aoc::upoint, 2> get_next_steps(const coord x, co
     return next_steps;
 }
 
-aoc::upoint get_next_step(const coord x, const coord y, const auto& maze2d, const aoc::upoint prev_step)
+aoc::upoint get_next_step(const coord x, const coord y, const maze& maze, const aoc::upoint prev_step)
 {
-    const auto steps = get_next_steps(x, y, maze2d);
+    const auto steps = get_next_steps(x, y, maze);
     if (steps[ 0 ] == prev_step) return steps[ 1 ];
 
     assert(steps[ 1 ] == prev_step);
     return steps[ 0 ];
 }
 
-char find_start_pipe_tile(const aoc::upoint start_point, const auto& maze2d)
+char find_start_pipe_tile(const aoc::upoint start_point, const maze& maze)
 {
     const auto x = start_point.x;
     const auto y = start_point.y;
 
-    const auto neighbours = get_next_steps(x, y, maze2d);
+    const auto neighbours = get_next_steps(x, y, maze);
     assert(neighbours.size() == 2);
 
     const auto p1 = neighbours[ 0 ];
@@ -96,27 +97,17 @@ char find_start_pipe_tile(const aoc::upoint start_point, const auto& maze2d)
     return pipe_tile;
 }
 
-std::tuple<std::string, size_t, size_t, aoc::upoint> read_maze(std::istream& input)
+std::tuple<maze, aoc::upoint> read_maze(std::istream& input)
 {
-    std::string maze_str;
-    maze_str.reserve(141 * 141);
-    std::getline(input, maze_str);
-    const size_t width = maze_str.size();
-    maze_str.append(std::istream_iterator<char>(input), std::istream_iterator<char>());
+    auto maze = aoc::grid::read_whole_input(input);
 
-    assert(maze_str.size() % width == 0);
-    const size_t height = maze_str.size() / width;
+    const auto start_coord = maze.find('S');
+    assert(start_coord);
 
-    const auto start_pos = maze_str.find('S');
-    assert(start_pos != std::string::npos);
-    const aoc::upoint start_coord = { start_pos % width, start_pos / width };
+    const char start_pipe_tile           = find_start_pipe_tile(*start_coord, maze);
+    maze(start_coord->x, start_coord->y) = start_pipe_tile;
 
-    std::mdspan maze2d(maze_str.data(), height, width);
-
-    const char start_pipe_tile                           = find_start_pipe_tile(start_coord, maze2d);
-    maze2d[ std::array{ start_coord.y, start_coord.x } ] = start_pipe_tile;
-
-    return { std::move(maze_str), width, height, start_coord };
+    return { std::move(maze), *start_coord };
 }
 
 using loop_map = std::map<coord, std::set<coord>>;
@@ -129,7 +120,7 @@ bool is_already_visited(const loop_map& visited, const coord x, const coord y)
     return y_iter->second.contains(x);
 }
 
-loop_map get_loop_map(const aoc::upoint start_coord, const auto& maze)
+loop_map get_loop_map(const aoc::upoint start_coord, const maze& maze)
 {
     std::map<coord, std::set<coord>> visited;
 
@@ -161,8 +152,7 @@ namespace year_2023
 
 size_t solve10_a(std::istream& input)
 {
-    const auto [ maze_str, width, height, start_coord ] = read_maze(input);
-    std::mdspan maze(maze_str.data(), height, width);
+    const auto [ maze, start_coord ] = read_maze(input);
 
     const auto loop_map = get_loop_map(start_coord, maze);
     const auto tiles =
@@ -174,10 +164,9 @@ size_t solve10_a(std::istream& input)
 
 size_t solve10_b(std::istream& input)
 {
-    const auto [ maze_str, width, height, start_coord ] = read_maze(input);
-    std::mdspan maze2d(maze_str.data(), height, width);
+    const auto [ maze, start_coord ] = read_maze(input);
 
-    const auto loop_map = get_loop_map(start_coord, maze2d);
+    const auto loop_map = get_loop_map(start_coord, maze);
 
     size_t enclosed_sum = 0;
 
@@ -187,7 +176,7 @@ size_t solve10_b(std::istream& input)
         size_t skip = 0;
         for (const auto x : row)
         {
-            const auto pipe       = maze2d[ std::array{ y, x } ];
+            const auto pipe       = maze(x, y);
             const bool cross_loop = pipe == '|' || pipe == 'L' || pipe == 'J';
 
             if (cross_loop && !inside_loop_from) { inside_loop_from = x; }

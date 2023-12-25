@@ -8,6 +8,7 @@
 #include <boost/iterator/function_input_iterator.hpp>
 #include <boost/stl_interfaces/iterator_interface.hpp>
 
+#include <cassert>
 #include <istream>
 #include <iterator>
 #include <optional>
@@ -214,10 +215,10 @@ auto parse_lines(std::istream& input, const Parser& parser)
 }
 
 template <char delimiter>
-class getliner
+class lines
 {
-public:
-    friend std::istream& operator>>(std::istream& is, getliner& l)
+  public:
+    friend std::istream& operator>>(std::istream& is, lines& l)
     {
         std::getline(is, l.m_line, delimiter);
         return is;
@@ -228,8 +229,10 @@ public:
         return m_line;
     }
 
-private:
+  private:
     std::string m_line;
 };
+
+
 
 }  // namespace aoc

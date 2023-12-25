@@ -16,6 +16,8 @@ set(SOURCES
     src/2023_13.cpp
     src/2023_14.cpp
     src/2023_15.cpp
+    src/2023_16.cpp
+    src/2023_17.cpp
 # ADD NEW TESTS HERE
 )
 
@@ -53,3 +55,5 @@ add_aoc_test(2023_12 8270 204640299929836)
 add_aoc_test(2023_13 27742 32728)
 add_aoc_test(2023_14 106186 106390)
 add_aoc_test(2023_15 517551 286097)
+add_aoc_test(2023_16 7060 7493)
+add_aoc_test(2023_17 886 1055)
