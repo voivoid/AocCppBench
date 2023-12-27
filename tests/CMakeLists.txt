@@ -1,5 +1,7 @@
 set(SOURCES
     inc/aoc/tests.h
+    src/2015_01.cpp
+    src/2021_01.cpp
     src/2023_01.cpp
     src/2023_02.cpp
     src/2023_03.cpp
@@ -9,7 +11,6 @@ set(SOURCES
     src/2023_07.cpp
     src/2023_08.cpp
     src/2023_09.cpp
-    src/2021_01.cpp
     src/2023_10.cpp
     src/2023_11.cpp
     src/2023_12.cpp
@@ -18,6 +19,7 @@ set(SOURCES
     src/2023_15.cpp
     src/2023_16.cpp
     src/2023_17.cpp
+    src/2023_18.cpp
 # ADD NEW TESTS HERE
 )
 
@@ -39,6 +41,8 @@ function(add_aoc_test problem result1 result2)
     set_tests_properties(${problem}_b PROPERTIES PASS_REGULAR_EXPRESSION "^${result2}\n$")
 endfunction()
 
+add_aoc_test(2015_01 280 1797)
+add_aoc_test(2021_01 1766 1797)
 add_aoc_test(2023_01 54601 54078)
 add_aoc_test(2023_02 2278 67953)
 add_aoc_test(2023_03 559667 86841457)
@@ -48,7 +52,6 @@ add_aoc_test(2023_06 840336 41382569)
 add_aoc_test(2023_07 253866470 254494947)
 add_aoc_test(2023_08 18157 14299763833181)
 add_aoc_test(2023_09 1743490457 1053)
-add_aoc_test(2021_01 1766 1797)
 add_aoc_test(2023_10 6864 349)
 add_aoc_test(2023_11 9565386 857986849428)
 add_aoc_test(2023_12 8270 204640299929836)
@@ -57,3 +60,4 @@ add_aoc_test(2023_14 106186 106390)
 add_aoc_test(2023_15 517551 286097)
 add_aoc_test(2023_16 7060 7493)
 add_aoc_test(2023_17 886 1055)
+add_aoc_test(2023_18 42317 83605563360288)

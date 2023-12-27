@@ -10,6 +10,9 @@
 #include <tuple>
 #include <vector>
 
+#include <boost/fusion/adapted/std_tuple.hpp>
+
+
 namespace
 {
 struct parsed_input

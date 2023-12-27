@@ -51,6 +51,7 @@ std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems
                                         size_t{ DAY } };                                                               \
     }
 
+#include "aoc/problems/2015_01.h"
 #include "aoc/problems/2021_01.h"
 #include "aoc/problems/2023_01.h"
 #include "aoc/problems/2023_02.h"
@@ -69,3 +70,4 @@ std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems
 #include "aoc/problems/2023_15.h"
 #include "aoc/problems/2023_16.h"
 #include "aoc/problems/2023_17.h"
+#include "aoc/problems/2023_18.h"

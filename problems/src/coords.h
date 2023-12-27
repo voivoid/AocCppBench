@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <limits>
 
 #include <boost/container/static_vector.hpp>
 #include <boost/functional/hash.hpp>
@@ -12,9 +13,13 @@ namespace aoc
 enum class direction
 {
     north = 0,
-    east,
-    south,
-    west
+    up    = 0,
+    east  = 1,
+    right = 1,
+    south = 2,
+    down  = 2,
+    west  = 3,
+    left  = 3
 };
 
 template <typename Coord>
@@ -39,7 +44,7 @@ struct generic_rect
 };
 
 using upoint = aoc::generic_point<size_t>;
-using point  = aoc::generic_point<int>;
+using point  = aoc::generic_point<long long>;
 using rect   = aoc::generic_rect<size_t>;
 
 template <typename T>
@@ -117,30 +122,46 @@ inline aoc::direction rotate_right(const aoc::direction dir)
     std::unreachable();
 }
 
+
+template <typename T>
+aoc::generic_point<T> get_next_pos(const aoc::generic_point<T>& p, const aoc::direction dir, T steps = 1)
+{
+    assert(steps > 0);
+    switch (dir)
+    {
+        case direction::north: return { p.x, p.y - steps };
+        case direction::east: return { p.x + steps, p.y };
+        case direction::south: return { p.x, p.y + steps };
+        case direction::west: return { p.x - steps, p.y };
+    };
+
+    std::unreachable();
+}
+
 template <typename T>
 std::optional<aoc::generic_point<T>> get_next_pos(const aoc::generic_point<T>& p,
                                                   const aoc::direction dir,
                                                   const aoc::generic_rect<T>& bounding_rect,
-                                                  size_t steps = 1)
+                                                  T steps = 1)
 {
     assert(steps > 0);
     switch (dir)
     {
         case direction::north:
-            if (p.y > (bounding_rect.top + steps - 1)) return { { p.x, p.y - steps } };
+            if (p.y > (bounding_rect.top + steps - 1)) return get_next_pos(p, dir, steps);
             return {};
         case direction::east:
-            if (p.x < (bounding_rect.right + 1 - steps)) return { { p.x + steps, p.y } };
+            if (p.x < (bounding_rect.right + 1 - steps)) return get_next_pos(p, dir, steps);
             return {};
         case direction::south:
-            if (p.y < (bounding_rect.bottom + 1 - steps)) return { { p.x, p.y + steps } };
+            if (p.y < (bounding_rect.bottom + 1 - steps)) return get_next_pos(p, dir, steps);
             return {};
         case direction::west:
-            if (p.x > (bounding_rect.left + steps - 1)) return { { p.x - steps, p.y } };
+            if (p.x > (bounding_rect.left + steps - 1)) return get_next_pos(p, dir, steps);
             return {};
     };
 
-    return {};
+    std::unreachable();
 }
 
 template <bool include_diagonal, typename T>
@@ -192,6 +213,20 @@ neighbours<include_diagonal, T> get_neighbours(const aoc::generic_point<T> loc,
                                                const aoc::generic_rect<T>& bounding_rect)
 {
     return get_neighbours<include_diagonal>(loc.x, loc.y, bounding_rect);
+}
+
+template <bool include_diagonal = true, typename T>
+neighbours<include_diagonal, T> get_neighbours(const T x, const T y)
+{
+    const auto t_min = std::numeric_limits<T>::min();
+    const auto t_max = std::numeric_limits<T>::max();
+    return get_neighbours<include_diagonal>(x, y, { { t_min, t_min }, { t_max, t_max } });
+}
+
+template <bool include_diagonal = true, typename T>
+neighbours<include_diagonal, T> get_neighbours(const aoc::generic_point<T> loc)
+{
+    return get_neighbours<include_diagonal>(loc.x, loc.y);
 }
 
 }  // namespace aoc

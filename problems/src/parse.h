@@ -1,12 +1,7 @@
 #pragma once
 
-#include <boost/callable_traits/args.hpp>
-#include <boost/fusion/adapted/std_tuple.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
-
-#include <boost/iterator/function_input_iterator.hpp>
-#include <boost/stl_interfaces/iterator_interface.hpp>
 
 #include <cassert>
 #include <istream>
@@ -102,10 +97,13 @@ constexpr auto x3_size_t_ = boost::spirit::x3::ulong_;
 
 template <typename Attr, typename Parser, typename Skipper>
 struct parser_iterator
-    : boost::stl_interfaces::iterator_interface<parser_iterator<Attr, Parser, Skipper>, std::input_iterator_tag, Attr>
 {
-    using iterator_concept = std::input_iterator_tag;
-    using difference_type  = ptrdiff_t;
+    using value_type        = Attr;
+    using reference         = Attr&;
+    using pointer           = Attr*;
+    using difference_type   = ptrdiff_t;
+    using iterator_category = std::input_iterator_tag;
+    using iterator_concept  = std::input_iterator_tag;
 
     parser_iterator() : m_input(nullptr), m_parser(nullptr), m_skipper(nullptr) {}
 

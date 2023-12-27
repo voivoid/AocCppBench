@@ -1,5 +1,7 @@
 #include "aoc/problems/2021_01.h"
 
+#include "views.h"
+
 #include <algorithm>
 #include <istream>
 #include <ranges>
@@ -14,7 +16,7 @@ namespace
 template <size_t window_size>
 size_t solve(std::istream& input)
 {
-    const auto depths = istream_view<int>(input) | std::ranges::to<std::vector<size_t>>();
+    const auto depths = aoc::istream_buffered_view<int, window_size + 1>(input);
 
     const auto measures = depths | views::adjacent_transform<window_size>([](auto... ds) { return (... + ds); });
 
