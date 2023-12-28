@@ -20,8 +20,14 @@ set(SOURCES
     src/2023_16.cpp
     src/2023_17.cpp
     src/2023_18.cpp
+    src/2023_19.cpp
 # ADD NEW TESTS HERE
 )
+
+foreach(YEAR RANGE 2015 2023)
+  source_group(${YEAR} ${SOURCES} REGULAR_EXPRESSION .+\/${YEAR}.+)
+endforeach()
+
 
 add_executable(aoc_tests ${SOURCES})
 target_include_directories(aoc_tests PRIVATE inc)
@@ -61,3 +67,4 @@ add_aoc_test(2023_15 517551 286097)
 add_aoc_test(2023_16 7060 7493)
 add_aoc_test(2023_17 886 1055)
 add_aoc_test(2023_18 42317 83605563360288)
+add_aoc_test(2023_19 398527 133973513090020)

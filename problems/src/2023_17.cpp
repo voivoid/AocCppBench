@@ -4,6 +4,7 @@
 #include "grid.h"
 
 #include <algorithm>
+#include <istream>
 #include <mdspan>
 #include <queue>
 #include <ranges>

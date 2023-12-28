@@ -66,11 +66,20 @@ bool x3_parse(std::istream& input, const Parser& parser, const Skipper& skipper,
 }
 
 template <typename Attr, typename Iter, typename Parser, typename Skipper>
-std::optional<Attr> x3_parse_attr(Iter begin, Iter end, const Parser& parser, const Skipper& skipper)
+std::optional<Attr> x3_parse_attr(Iter& begin, const Parser& parser, const Skipper& skipper)
+{
+    Attr attr;
+    const bool parsed = boost::spirit::x3::phrase_parse(begin, Iter{}, parser, skipper, attr);
+    return parsed ? std::optional<Attr>{ std::move(attr) } : std::optional<Attr>{};
+}
+
+template <typename Attr, typename Iter, typename Parser, typename Skipper>
+std::optional<Attr>
+    x3_parse_attr(Iter begin, Iter end, const Parser& parser, const Skipper& skipper, bool parse_all = true)
 {
     Attr attr;
     const bool parsed = boost::spirit::x3::phrase_parse(begin, end, parser, skipper, attr);
-    return parsed && (begin == end) ? std::optional<Attr>{ std::move(attr) } : std::optional<Attr>{};
+    return parsed && (!parse_all || (begin == end)) ? std::optional<Attr>{ std::move(attr) } : std::optional<Attr>{};
 }
 
 template <typename Attr, typename Parser, typename Skipper>

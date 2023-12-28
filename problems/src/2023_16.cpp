@@ -5,6 +5,7 @@
 
 #include <array>
 #include <cstddef>
+#include <istream>
 #include <mdspan>
 #include <ranges>
 

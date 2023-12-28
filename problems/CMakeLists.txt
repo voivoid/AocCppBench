@@ -21,6 +21,7 @@ set(SOURCES
     inc/aoc/problems/2023_16.h src/2023_16.cpp
     inc/aoc/problems/2023_17.h src/2023_17.cpp
     inc/aoc/problems/2023_18.h src/2023_18.cpp
+    inc/aoc/problems/2023_19.h src/2023_19.cpp
 # ADD NEW PROBLEMS HERE
     src/coords.h
     src/coords_fusion.h
@@ -29,6 +30,10 @@ set(SOURCES
     src/parse.h
     src/views.h
 )
+
+foreach(YEAR RANGE 2015 2023)
+  source_group(${YEAR} ${SOURCES} REGULAR_EXPRESSION .+\/${YEAR}.+.cpp)
+endforeach()
 
 add_library(aoc_problems STATIC ${SOURCES})
 add_library(aoc::problems ALIAS aoc_problems)
