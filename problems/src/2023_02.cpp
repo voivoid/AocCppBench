@@ -35,9 +35,9 @@ auto make_game_parser()
 {
     namespace x3 = boost::spirit::x3;
 
-    boost::spirit::x3::symbols<size_t set::*> color_symbols = { { "red", &set::red },
-                                                                { "green", &set::green },
-                                                                { "blue", &set::blue } };
+    const boost::spirit::x3::symbols<size_t set::*> color_symbols = { { "red", &set::red },
+                                                                      { "green", &set::green },
+                                                                      { "blue", &set::blue } };
 
     const auto set_parser_action = [](const auto& ctx)
     {

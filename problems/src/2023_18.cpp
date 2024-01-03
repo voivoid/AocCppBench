@@ -31,14 +31,14 @@ auto make_parser()
 {
     namespace x3 = boost::spirit::x3;
 
-    x3::symbols<aoc::direction> dir_parser{
+    const x3::symbols<aoc::direction> dir_parser{
         { "R", aoc::direction::right },
         { "L", aoc::direction::left },
         { "U", aoc::direction::up },
         { "D", aoc::direction::down },
     };
 
-    x3::symbols<aoc::direction> alt_dir_parser{
+    const x3::symbols<aoc::direction> alt_dir_parser{
         { "0", aoc::direction::right },
         { "1", aoc::direction::down },
         { "2", aoc::direction::left },

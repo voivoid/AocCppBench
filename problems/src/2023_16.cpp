@@ -6,7 +6,6 @@
 #include <array>
 #include <cstddef>
 #include <istream>
-#include <mdspan>
 #include <ranges>
 
 #include <boost/fusion/adapted/std_tuple.hpp>
@@ -24,6 +23,7 @@ struct beam_state
 class tile
 {
   public:
+    tile() = default;
     tile(const char c) : m_chr(char_to_byte(c)), m_dir(0), m_out(0) {}
 
     char ch() const
@@ -91,31 +91,26 @@ class tile
     uint8_t m_out : 1;
 };
 
-struct layout
+std::istream& operator>>(std::istream& is, tile& t)
 {
-    std::vector<tile> tiles;
-    size_t width;
-    size_t height;
-};
+    char c{};
+    is >> c;
+    if (!is) return is;
 
+    t = tile(c);
+    return is;
+}
+
+using layout = aoc::generic_grid<tile>;
 
 void clear_layout(layout& layout)
 {
-    for (auto& tile : layout.tiles) { tile.clear_visit(); }
+    for (auto& tile : layout.get_range()) { tile.clear_visit(); }
 }
 
 layout read_layout(std::istream& input)
 {
-    // TODO: make aoc::grid generic
-    const auto grid = aoc::grid::read_whole_input(input);
-
-    layout layout;
-    layout.tiles.assign(grid.str().cbegin(), grid.str().cend());
-
-    layout.width  = grid.get_width();
-    layout.height = grid.get_height();
-
-    return layout;
+    return aoc::generic_grid<tile>::read_whole_input(input);
 }
 
 std::tuple<std::optional<aoc::direction>, std::optional<aoc::direction>> get_next_dirs(const aoc::direction current_dir,
@@ -167,10 +162,8 @@ std::tuple<std::optional<aoc::direction>, std::optional<aoc::direction>> get_nex
 
 size_t calc_configuration_energy(layout& layout, const beam_state initial_state)
 {
-    std::mdspan mdspan(layout.tiles.data(), layout.width, layout.height);
-
-    const auto right         = layout.width - 1;
-    const auto bottom        = layout.height - 1;
+    const auto right         = layout.get_width() - 1;
+    const auto bottom        = layout.get_height() - 1;
     const auto bounding_rect = aoc::rect{ { 0, 0 }, { right, bottom } };
 
     std::vector<beam_state> states{ initial_state };
@@ -179,7 +172,7 @@ size_t calc_configuration_energy(layout& layout, const beam_state initial_state)
         const auto state = states.back();
         states.pop_back();
 
-        tile& current_tile = mdspan[ std::array{ state.pos.y, state.pos.x } ];
+        tile& current_tile = layout(state.pos.x, state.pos.y);
 
         if (current_tile.is_visited(state.dir)) continue;
 
@@ -207,7 +200,7 @@ size_t calc_configuration_energy(layout& layout, const beam_state initial_state)
                                 });
     }
 
-    return std::ranges::count_if(layout.tiles, [](const auto tile) { return tile.is_visited(); });
+    return std::ranges::count_if(layout.get_range(), [](const auto tile) { return tile.is_visited(); });
 }
 
 }  // namespace
@@ -228,14 +221,13 @@ size_t solve16_a(std::istream& input)
 size_t solve16_b(std::istream& input)
 {
     auto layout       = read_layout(input);
-    const auto width  = layout.width;
-    const auto height = layout.height;
-    std::mdspan mdspan(layout.tiles.data(), width, height);
+    const auto width  = layout.get_width();
+    const auto height = layout.get_height();
 
     size_t max_energy = 0;
     const auto calc   = [ & ](const beam_state initial_state)
     {
-        const auto initial_tile = mdspan[ std::array{ initial_state.pos.y, initial_state.pos.x } ];
+        const auto initial_tile = layout(initial_state.pos.x, initial_state.pos.y);
         if (initial_tile.is_out()) return;
 
         max_energy = std::max(max_energy, calc_configuration_energy(layout, initial_state));

@@ -48,6 +48,9 @@ int main(int argc, char** argv)
 
     try
     {
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(nullptr);
+
         problem->solver(input_fs, std::cout);
     }
     catch (const std::exception& ex)

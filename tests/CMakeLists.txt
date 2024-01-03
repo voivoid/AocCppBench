@@ -2,6 +2,9 @@ set(SOURCES
     inc/aoc/tests.h
     src/2015_01.cpp
     src/2021_01.cpp
+    src/2021_02.cpp
+    src/2021_03.cpp
+    src/2021_04.cpp
     src/2023_01.cpp
     src/2023_02.cpp
     src/2023_03.cpp
@@ -22,6 +25,7 @@ set(SOURCES
     src/2023_18.cpp
     src/2023_19.cpp
     src/2023_20.cpp
+    src/2023_21.cpp
 # ADD NEW TESTS HERE
 )
 
@@ -50,6 +54,9 @@ endfunction()
 
 add_aoc_test(2015_01 280 1797)
 add_aoc_test(2021_01 1766 1797)
+add_aoc_test(2021_02 1728414 1765720035)
+add_aoc_test(2021_03 2261546 6775520)
+add_aoc_test(2021_04 28082 8224)
 add_aoc_test(2023_01 54601 54078)
 add_aoc_test(2023_02 2278 67953)
 add_aoc_test(2023_03 559667 86841457)
@@ -70,3 +77,4 @@ add_aoc_test(2023_17 886 1055)
 add_aoc_test(2023_18 42317 83605563360288)
 add_aoc_test(2023_19 398527 133973513090020)
 add_aoc_test(2023_20 684125385 225872806380073)
+add_aoc_test(2023_21 3758 0)

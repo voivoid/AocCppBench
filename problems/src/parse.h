@@ -65,11 +65,12 @@ bool x3_parse(std::istream& input, const Parser& parser, const Skipper& skipper,
     return x3_parse(boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper, attr);
 }
 
-template <typename Attr, typename Iter, typename Parser, typename Skipper>
-std::optional<Attr> x3_parse_attr(Iter& begin, const Parser& parser, const Skipper& skipper)
+template <typename Attr, typename Parser, typename Skipper>
+std::optional<Attr> x3_parse_attr(boost::spirit::istream_iterator& begin, const Parser& parser, const Skipper& skipper)
 {
     Attr attr;
-    const bool parsed = boost::spirit::x3::phrase_parse(begin, Iter{}, parser, skipper, attr);
+    const bool parsed =
+        boost::spirit::x3::phrase_parse(begin, boost::spirit::istream_iterator{}, parser, skipper, attr);
     return parsed ? std::optional<Attr>{ std::move(attr) } : std::optional<Attr>{};
 }
 
@@ -220,26 +221,5 @@ auto parse_lines(std::istream& input, const Parser& parser)
 {
     return parse_lines<Attr>(input, parser, boost::spirit::x3::space);
 }
-
-template <char delimiter>
-class lines
-{
-  public:
-    friend std::istream& operator>>(std::istream& is, lines& l)
-    {
-        std::getline(is, l.m_line, delimiter);
-        return is;
-    }
-
-    operator const std::string&() const
-    {
-        return m_line;
-    }
-
-  private:
-    std::string m_line;
-};
-
-
 
 }  // namespace aoc

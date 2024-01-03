@@ -12,14 +12,16 @@ namespace aoc
 
 enum class direction
 {
-    north = 0,
-    up    = 0,
-    east  = 1,
-    right = 1,
-    south = 2,
-    down  = 2,
-    west  = 3,
-    left  = 3
+    north    = 0,
+    up       = 0,
+    east     = 1,
+    right    = 1,
+    forward  = 1,
+    south    = 2,
+    down     = 2,
+    west     = 3,
+    left     = 3,
+    backward = 3
 };
 
 template <typename Coord>

@@ -2,6 +2,7 @@
 
 #include "ensure.h"
 #include "parse.h"
+#include "stream.h"
 
 #include <algorithm>
 #include <istream>
