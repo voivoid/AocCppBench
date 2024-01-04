@@ -5,11 +5,6 @@
 
 #include <unordered_set>
 
-namespace
-{
-
-}
-
 namespace aoc
 {
 namespace year_2023
@@ -18,10 +13,10 @@ namespace details
 {
 size_t solve21_a_impl(std::istream& input, size_t steps)
 {
-    const auto grid               = aoc::grid::read_whole_input(input);
-    const auto width              = grid.get_width();
-    const auto height             = grid.get_height();
-    const aoc::rect bounding_rect = { { 0, 0 }, { width, height } };
+    const auto grid                = aoc::grid::read_whole_input(input);
+    const auto width               = grid.get_width();
+    const auto height              = grid.get_height();
+    const aoc::urect bounding_rect = { { 0, 0 }, { width, height } };
 
     const auto start = grid.find('S');
     assert(start);

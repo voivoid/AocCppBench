@@ -5,6 +5,7 @@ set(SOURCES
     src/2021_02.cpp
     src/2021_03.cpp
     src/2021_04.cpp
+    src/2021_05.cpp
     src/2023_01.cpp
     src/2023_02.cpp
     src/2023_03.cpp
@@ -57,6 +58,7 @@ add_aoc_test(2021_01 1766 1797)
 add_aoc_test(2021_02 1728414 1765720035)
 add_aoc_test(2021_03 2261546 6775520)
 add_aoc_test(2021_04 28082 8224)
+add_aoc_test(2021_05 6564 19172)
 add_aoc_test(2023_01 54601 54078)
 add_aoc_test(2023_02 2278 67953)
 add_aoc_test(2023_03 559667 86841457)

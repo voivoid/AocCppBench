@@ -24,11 +24,36 @@ enum class direction
     backward = 3
 };
 
-template <typename Coord>
+template <typename T>
 struct generic_point
 {
-    Coord x;
-    Coord y;
+    T x;
+    T y;
+
+    auto operator<=>(const generic_point<T>& p) const = default;
+};
+
+template <typename T>
+struct generic_line
+{
+    generic_point<T> from;
+    generic_point<T> to;
+
+    enum class dir
+    {
+        horizontal = 0,
+        vertical,
+        diagonal
+    };
+
+    dir get_dir() const
+    {
+        if (from.x == to.x) return dir::vertical;
+        if (from.y == to.y) return dir::horizontal;
+        return dir::diagonal;
+    }
+
+    auto operator<=>(const generic_line<T>& p) const = default;
 };
 
 template <typename T>
@@ -43,29 +68,16 @@ struct generic_rect
     T right;
     T top;
     T bottom;
+
+    auto operator<=>(const generic_rect<T>& p) const = default;
 };
 
 using upoint = aoc::generic_point<size_t>;
 using point  = aoc::generic_point<long long>;
-using rect   = aoc::generic_rect<size_t>;
-
-template <typename T>
-bool operator<(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
-{
-    return l1.x != l2.x ? l1.x < l2.x : l1.y < l2.y;
-}
-
-template <typename T>
-bool operator==(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
-{
-    return l1.x == l2.x && l1.y == l2.y;
-}
-
-template <typename T>
-bool operator!=(const aoc::generic_point<T>& l1, const aoc::generic_point<T>& l2)
-{
-    return !(l1 == l2);
-}
+using uline  = aoc::generic_line<size_t>;
+using line   = aoc::generic_line<long long>;
+using urect  = aoc::generic_rect<size_t>;
+using rect   = aoc::generic_line<long long>;
 
 inline bool is_horizontal_direction(const aoc::direction dir)
 {
@@ -236,11 +248,11 @@ neighbours<include_diagonal, T> get_neighbours(const aoc::generic_point<T> loc)
 template <typename T>
 struct std::hash<aoc::generic_point<T>>
 {
-    std::size_t operator()(const aoc::generic_point<T>& l) const noexcept
+    std::size_t operator()(const aoc::generic_point<T>& p) const noexcept
     {
         std::size_t seed = 0;
-        boost::hash_combine(seed, l.x);
-        boost::hash_combine(seed, l.y);
+        boost::hash_combine(seed, p.x);
+        boost::hash_combine(seed, p.y);
 
         return seed;
     }

@@ -46,7 +46,7 @@ auto get_adjacent_positions(const aoc::grid& grid,
                             const size_t max_x,
                             const size_t max_y)
 {
-    aoc::rect bounding_rect{ { 0, 0 }, { max_x, max_y } };
+    aoc::urect bounding_rect{ { 0, 0 }, { max_x, max_y } };
     boost::container::static_vector<adjacent_pos, 2 * (direct_move_max - direct_move_min + 1)> adjacents;
 
     const auto left  = aoc::rotate_left(dir);

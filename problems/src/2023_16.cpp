@@ -164,7 +164,7 @@ size_t calc_configuration_energy(layout& layout, const beam_state initial_state)
 {
     const auto right         = layout.get_width() - 1;
     const auto bottom        = layout.get_height() - 1;
-    const auto bounding_rect = aoc::rect{ { 0, 0 }, { right, bottom } };
+    const auto bounding_rect = aoc::urect{ { 0, 0 }, { right, bottom } };
 
     std::vector<beam_state> states{ initial_state };
     while (!states.empty())
