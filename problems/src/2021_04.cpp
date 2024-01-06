@@ -5,6 +5,7 @@
 #include "parse.h"
 
 #include <array>
+#include <istream>
 #include <list>
 #include <numeric>
 #include <ranges>

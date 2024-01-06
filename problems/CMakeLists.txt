@@ -7,6 +7,8 @@ set(SOURCES
     inc/aoc/problems/2021_03.h src/2021_03.cpp
     inc/aoc/problems/2021_04.h src/2021_04.cpp
     inc/aoc/problems/2021_05.h src/2021_05.cpp
+    inc/aoc/problems/2021_06.h src/2021_06.cpp
+    inc/aoc/problems/2021_07.h src/2021_07.cpp
     inc/aoc/problems/2023_01.h src/2023_01.cpp
     inc/aoc/problems/2023_02.h src/2023_02.cpp
     inc/aoc/problems/2023_03.h src/2023_03.cpp

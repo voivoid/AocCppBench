@@ -105,7 +105,7 @@ std::optional<Attr> x3_parse_attr(std::istream& input, const Parser& parser, con
 
 constexpr auto x3_size_t_ = boost::spirit::x3::ulong_;
 
-template <typename Attr, typename Parser, typename Skipper>
+template <typename Attr, typename Parser, typename Skipper, char separator>
 struct parser_iterator
 {
     using value_type        = Attr;
@@ -155,7 +155,7 @@ struct parser_iterator
 
         static constexpr size_t LineLen = 4096;
         char line[ LineLen ];
-        if (!m_input->getline(line, sizeof(line)))
+        if (!m_input->getline(line, sizeof(line), separator))
         {
             reset();
             return;
@@ -185,21 +185,21 @@ struct parser_iterator
     Attr m_attr;
 };
 
-template <typename Attr, typename Parser, typename Skipper>
-struct parser_range : std::ranges::view_interface<parser_range<Attr, Parser, Skipper>>
+template <typename Attr, char separator, typename Parser, typename Skipper>
+struct parser_range : std::ranges::view_interface<parser_range<Attr, separator, Parser, Skipper>>
 {
     parser_range(std::istream& input, const Parser& parser, const Skipper& skipper) :
         m_input(&input), m_parser(parser), m_skipper(skipper)
     {
     }
 
-    parser_iterator<Attr, Parser, Skipper> begin() const
+    parser_iterator<Attr, Parser, Skipper, separator> begin() const
     {
-        static_assert(std::input_iterator<parser_iterator<Attr, Parser, Skipper>>);
-        return parser_iterator<Attr, Parser, Skipper>{ *m_input, m_parser, m_skipper };
+        static_assert(std::input_iterator<parser_iterator<Attr, Parser, Skipper, separator>>);
+        return parser_iterator<Attr, Parser, Skipper, separator>{ *m_input, m_parser, m_skipper };
     }
 
-    parser_iterator<Attr, Parser, Skipper> end() const
+    parser_iterator<Attr, Parser, Skipper, separator> end() const
     {
         return {};
     }
@@ -210,16 +210,17 @@ struct parser_range : std::ranges::view_interface<parser_range<Attr, Parser, Ski
     Skipper m_skipper;
 };
 
-template <typename Attr, typename Parser, typename Skipper>
-parser_range<Attr, Parser, Skipper> parse_lines(std::istream& input, const Parser& parser, const Skipper& skipper)
+template <typename Attr, char separator = '\n', typename Parser, typename Skipper>
+parser_range<Attr, separator, Parser, Skipper>
+    parse_lines(std::istream& input, const Parser& parser, const Skipper& skipper)
 {
-    return parser_range<Attr, Parser, Skipper>(input, parser, skipper);
+    return parser_range<Attr, separator, Parser, Skipper>(input, parser, skipper);
 }
 
-template <typename Attr, typename Parser>
+template <typename Attr, char separator = '\n', typename Parser>
 auto parse_lines(std::istream& input, const Parser& parser)
 {
-    return parse_lines<Attr>(input, parser, boost::spirit::x3::space);
+    return parse_lines<Attr, separator>(input, parser, boost::spirit::x3::space);
 }
 
 }  // namespace aoc

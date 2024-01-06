@@ -12,6 +12,7 @@
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/segment.hpp>
 
+#include <istream>
 #include <ranges>
 #include <unordered_set>
 #include <vector>
@@ -82,7 +83,7 @@ size_t solve(std::istream& input, const bool ignore_diagonal)
             {
                 // boost geometry has some issues with integer arithmetic
                 // so double-checking is needed for diagonal lines
-                if ((l1_dir != diagonal && l2_dir != diagonal) || 
+                if ((l1_dir != diagonal && l2_dir != diagonal) ||
                     (boost::geometry::intersects(l1, line_intersections[ 0 ]) &&
                      boost::geometry::intersects(l2, line_intersections[ 0 ])))
                 {

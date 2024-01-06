@@ -122,8 +122,6 @@ struct conjunction : module
 
         pulse_history[ source ] = level;
 
-        [[maybe_unused]] const bool all = are_all_high() && this->get_name() == "lg";
-
         return are_all_high() ? pulse_level::low : pulse_level::high;
     }
 

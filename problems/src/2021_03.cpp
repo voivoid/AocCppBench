@@ -5,6 +5,7 @@
 #include "stream.h"
 
 #include <algorithm>
+#include <istream>
 #include <ranges>
 #include <string>
 #include <vector>
