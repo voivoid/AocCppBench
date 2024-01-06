@@ -38,8 +38,9 @@ struct state
     std::map<box_id, box> box_map;
 };
 }  // namespace
-BOOST_FUSION_ADAPT_STRUCT(lens, label, focal_length);
-BOOST_FUSION_ADAPT_STRUCT(remove_lens, label);
+
+BOOST_FUSION_ADAPT_STRUCT(lens, label, focal_length)
+BOOST_FUSION_ADAPT_STRUCT(remove_lens, label)
 
 namespace
 {

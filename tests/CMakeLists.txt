@@ -1,12 +1,14 @@
 set(SOURCES
     inc/aoc/tests.h
     src/2015_01.cpp
+    src/2015_02.cpp
     src/2021_01.cpp
     src/2021_02.cpp
     src/2021_03.cpp
     src/2021_04.cpp
     src/2021_05.cpp
     src/2021_06.cpp
+    src/2021_07.cpp
     src/2023_01.cpp
     src/2023_02.cpp
     src/2023_03.cpp
@@ -28,7 +30,6 @@ set(SOURCES
     src/2023_19.cpp
     src/2023_20.cpp
     src/2023_21.cpp
-    src/2021_07.cpp
 # ADD NEW TESTS HERE
 )
 
@@ -56,6 +57,7 @@ function(add_aoc_test problem result1 result2)
 endfunction()
 
 add_aoc_test(2015_01 280 1797)
+add_aoc_test(2015_02 1586300 3737498)
 add_aoc_test(2021_01 1766 1797)
 add_aoc_test(2021_02 1728414 1765720035)
 add_aoc_test(2021_03 2261546 6775520)

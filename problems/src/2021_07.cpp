@@ -31,7 +31,8 @@ template <auto calc_fuel>
 size_t calc_total_fuel(const std::vector<int>& positions, const int best_align_pos)
 {
     const auto fuel_costs =
-        positions | std::ranges::views::transform([best_align_pos](const int pos) { return calc_fuel(std::abs(best_align_pos - pos)); });
+        positions | std::ranges::views::transform([ best_align_pos ](const int pos)
+                                                  { return calc_fuel(std::abs(best_align_pos - pos)); });
 
     const auto total_fuel = std::ranges::fold_left(fuel_costs, size_t(0), std::plus{});
     return total_fuel;
