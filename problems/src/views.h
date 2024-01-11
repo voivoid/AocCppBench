@@ -34,7 +34,7 @@ class istream_buffered_view
         using iterator_concept  = std::forward_iterator_tag;
 
         iterator() = default;
-        iterator(const istream_buffered_view& view) : m_view(&view) {}
+        iterator(istream_buffered_view& view) : m_view(&view) {}
 
         const T& operator*() const noexcept
         {
@@ -71,10 +71,10 @@ class istream_buffered_view
 
       private:
         size_t m_idx = 0;
-        const istream_buffered_view* m_view;
+        istream_buffered_view* m_view;
     };
 
-    iterator begin() const
+    iterator begin()
     {
         return { *this };
     }
@@ -84,13 +84,13 @@ class istream_buffered_view
     }
 
   private:
-    const auto& get_elem(const size_t idx) const
+    const auto& get_elem(const size_t idx)
     {
         assert(idx >= m_idx);
         return m_buffer[ idx - m_idx ];
     }
 
-    void read_elems(size_t idx) const
+    void read_elems(size_t idx)
     {
         const auto d = idx - m_idx + 1;
         if (d > buffer_size)
@@ -117,9 +117,9 @@ class istream_buffered_view
 
   private:
     std::istream* m_stream;
-    mutable size_t m_idx  = 0;
-    mutable size_t m_last = size_t(-1);
-    mutable boost::circular_buffer<T> m_buffer;
+    size_t m_idx  = 0;
+    size_t m_last = size_t(-1);
+    boost::circular_buffer<T> m_buffer;
 };
 
 template <typename T>

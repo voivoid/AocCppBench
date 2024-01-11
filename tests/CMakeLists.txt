@@ -2,6 +2,7 @@ set(SOURCES
     inc/aoc/tests.h
     src/2015_01.cpp
     src/2015_02.cpp
+    src/2015_03.cpp
     src/2021_01.cpp
     src/2021_02.cpp
     src/2021_03.cpp
@@ -58,6 +59,7 @@ endfunction()
 
 add_aoc_test(2015_01 280 1797)
 add_aoc_test(2015_02 1586300 3737498)
+add_aoc_test(2015_03 2592 2360)
 add_aoc_test(2021_01 1766 1797)
 add_aoc_test(2021_02 1728414 1765720035)
 add_aoc_test(2021_03 2261546 6775520)

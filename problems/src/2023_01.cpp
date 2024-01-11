@@ -31,7 +31,7 @@ boost::spirit::x3::symbols<Digit> make_digits_map(const digits_parser_mode mode)
     for (size_t i = 0; i < std::size(digit_words); ++i)
     {
         std::string word = digit_words[ i ];
-        if (mode == digits_parser_mode::reverse) { std::reverse(word.begin(), word.end()); }
+        if (mode == digits_parser_mode::reverse) { std::ranges::reverse(word); }
         symbols_map.add(word, i + 1);
     }
 
@@ -57,25 +57,21 @@ size_t calc_extrapolation(const std::string& input_line, const Parser& direct_pa
         input_line.crbegin(), input_line.crend(), reverse_parser, boost::spirit::x3::space, false);
     ensure(digit2);
 
-    assert(*digit1 <= 9);
-    assert(*digit2 <= 9);
-
     return *digit1 * 10 + *digit2;
 }
 
 size_t calc_calibration_value(const std::string& s)
 {
-    static const char* const digits = "0123456789";
+    static constexpr auto isdigit = [](const char c) { return std::isdigit(c); };
 
-    const auto first_digit_idx = s.find_first_of(digits);
-    const auto last_digit_idx  = s.find_last_of(digits);
-    assert(first_digit_idx != std::string::npos);
-    assert(last_digit_idx != std::string::npos);
+    auto first_digit_iter = std::ranges::find_if(s, isdigit);
+    assert(first_digit_iter != s.cend());
 
-    const auto first_digit = s[ first_digit_idx ];
-    const auto last_digit  = s[ last_digit_idx ];
-    assert(std::isdigit(first_digit));
-    assert(std::isdigit(last_digit));
+    auto last_digit_iter = std::ranges::find_if(s | std::ranges::views::reverse, isdigit);
+    assert(last_digit_iter != s.crend());
+
+    const auto first_digit = *first_digit_iter;
+    const auto last_digit = *last_digit_iter;
 
     return (first_digit - '0') * 10 + (last_digit - '0');
 }

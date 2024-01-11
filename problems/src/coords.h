@@ -30,7 +30,23 @@ struct generic_point
     T x;
     T y;
 
+    struct offset
+    {
+        T x;
+        T y;
+    };
+
     auto operator<=>(const generic_point<T>& p) const = default;
+
+    generic_point operator+(const offset s) const {
+        return { x + s.x, y + s.y };
+    }
+
+    generic_point& operator+=(const offset s) {
+        x += s.x;
+        y += s.y;
+        return *this;
+    }
 };
 
 template <typename T>

@@ -3,6 +3,7 @@ set(SOURCES
     inc/aoc/problems/all.h
     inc/aoc/problems/2015_01.h src/2015_01.cpp
     inc/aoc/problems/2015_02.h src/2015_02.cpp
+    inc/aoc/problems/2015_03.h src/2015_03.cpp
     inc/aoc/problems/2021_01.h src/2021_01.cpp
     inc/aoc/problems/2021_02.h src/2021_02.cpp
     inc/aoc/problems/2021_03.h src/2021_03.cpp
