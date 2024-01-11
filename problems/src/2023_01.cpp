@@ -71,7 +71,7 @@ size_t calc_calibration_value(const std::string& s)
     assert(last_digit_iter != s.crend());
 
     const auto first_digit = *first_digit_iter;
-    const auto last_digit = *last_digit_iter;
+    const auto last_digit  = *last_digit_iter;
 
     return (first_digit - '0') * 10 + (last_digit - '0');
 }

@@ -38,11 +38,13 @@ struct generic_point
 
     auto operator<=>(const generic_point<T>& p) const = default;
 
-    generic_point operator+(const offset s) const {
+    generic_point operator+(const offset s) const
+    {
         return { x + s.x, y + s.y };
     }
 
-    generic_point& operator+=(const offset s) {
+    generic_point& operator+=(const offset s)
+    {
         x += s.x;
         y += s.y;
         return *this;
