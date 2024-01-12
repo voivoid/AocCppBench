@@ -1,8 +1,13 @@
 #include "aoc/problems/2015_04.h"
 
+#include <execution>
+#include <functional>
 #include <istream>
+#include <numeric>
+#include <optional>
 #include <ranges>
 #include <string>
+#include <vector>
 
 #define BOOST_UUID_COMPAT_PRE_1_71_MD5
 #include "boost/uuid/detail/md5.hpp"
@@ -44,18 +49,34 @@ char next_char(const char c)
 
 void inc_num_str(std::string& num_str)
 {
-    for (auto r_iter = num_str.rbegin(); r_iter != num_str.rend(); ++r_iter)
+    for (size_t i = num_str.size() - 1; i > 0; --i)
     {
-        if (!std::isdigit(*r_iter))
+        char& c = num_str[ i ];
+        if (!std::isdigit(c))
         {
-            num_str.insert(r_iter.base(), '1');
+            num_str.insert(num_str.cbegin() + i + 1, '1');
             return;
         }
 
-        *r_iter = next_char(*r_iter);
+        c = next_char(c);
 
-        if (*r_iter != '0') return;
+        if (c != '0') return;
     }
+}
+
+template <size_t leading_zeroes>
+std::optional<size_t> try_find_hash(const size_t from, std::string secret_key, const size_t nums_to_check)
+{
+    const size_t to = from + nums_to_check;
+
+    secret_key += std::to_string(from);
+    for (size_t n = from; n < to; ++n)
+    {
+        if (check_hash_has_leading_zeroes<leading_zeroes>(secret_key)) { return n; }
+        inc_num_str(secret_key);
+    }
+
+    return {};
 }
 
 template <size_t leading_zeroes>
@@ -64,14 +85,37 @@ size_t solve(std::istream& input)
     std::string secret_key;
     input >> secret_key;
 
-    for (const size_t n : std::ranges::views::iota(0))
+    size_t block            = 0;
+    const size_t block_size = 4000;
+    std::vector<size_t> blocks(std::thread::hardware_concurrency());
+
+    for (;;)
     {
-        if (check_hash_has_leading_zeroes<leading_zeroes>(secret_key)) { return n; }
+        std::ranges::generate(blocks,
+                              [ &block ]()
+                              {
+                                  const auto from = block++ * block_size;
+                                  return from;
+                              });
 
-        inc_num_str(secret_key);
+        static constexpr auto reduce = [](const std::optional<size_t>& res1, const std::optional<size_t>& res2)
+        {
+            if (!res1) return res2;
+            if (!res2) return res1;
+
+            return std::optional<size_t>{ std::min(*res1, *res2) };
+        };
+
+        const auto min_num =
+            std::transform_reduce(std::execution::par_unseq,
+                                  blocks.cbegin(),
+                                  blocks.cend(),
+                                  std::optional<size_t>{},
+                                  reduce,
+                                  std::bind_back(try_find_hash<leading_zeroes>, std::ref(secret_key), block_size));
+
+        if (min_num) { return *min_num; }
     }
-
-    std::unreachable();
 }
 }  // namespace
 
