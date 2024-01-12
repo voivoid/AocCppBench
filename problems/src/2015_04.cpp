@@ -1,9 +1,5 @@
 #include "aoc/problems/2015_04.h"
 
-#include "ensure.h"
-
-#include <cassert>
-#include <functional>
 #include <istream>
 #include <ranges>
 #include <string>

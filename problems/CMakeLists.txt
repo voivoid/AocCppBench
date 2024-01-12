@@ -1,9 +1,15 @@
 set(SOURCES
     inc/aoc/problems/register.h
     inc/aoc/problems/all.h
+
+#2015
     inc/aoc/problems/2015_01.h src/2015_01.cpp
     inc/aoc/problems/2015_02.h src/2015_02.cpp
     inc/aoc/problems/2015_03.h src/2015_03.cpp
+    inc/aoc/problems/2015_04.h src/2015_04.cpp
+    inc/aoc/problems/2015_05.h src/2015_05.cpp
+
+#2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
     inc/aoc/problems/2021_02.h src/2021_02.cpp
     inc/aoc/problems/2021_03.h src/2021_03.cpp
@@ -11,6 +17,8 @@ set(SOURCES
     inc/aoc/problems/2021_05.h src/2021_05.cpp
     inc/aoc/problems/2021_06.h src/2021_06.cpp
     inc/aoc/problems/2021_07.h src/2021_07.cpp
+
+#2023
     inc/aoc/problems/2023_01.h src/2023_01.cpp
     inc/aoc/problems/2023_02.h src/2023_02.cpp
     inc/aoc/problems/2023_03.h src/2023_03.cpp
@@ -32,7 +40,6 @@ set(SOURCES
     inc/aoc/problems/2023_19.h src/2023_19.cpp
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
-    inc/aoc/problems/2015_04.h src/2015_04.cpp
 # ADD NEW PROBLEMS HERE
     src/coords.h
     src/coords_fusion.h
