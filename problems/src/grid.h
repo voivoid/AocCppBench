@@ -19,6 +19,9 @@ class generic_grid
 {
   public:
     generic_grid() : m_width(0), m_height(0) {}
+    generic_grid(const size_t width, const size_t height) : m_str(width * height, T{}), m_width(width), m_height(height)
+    {
+    }
     generic_grid(std::basic_string<T> str, const size_t width, const size_t height) :
         m_str(std::move(str)), m_width(width), m_height(height)
     {

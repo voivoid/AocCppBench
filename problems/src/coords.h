@@ -77,15 +77,17 @@ struct generic_line
 template <typename T>
 struct generic_rect
 {
+    generic_rect() = default;
+
     generic_rect(aoc::generic_point<T> left_top, aoc::generic_point<T> right_bottom) :
         left(left_top.x), right(right_bottom.x), top(left_top.y), bottom(right_bottom.y)
     {
     }
 
-    T left;
-    T right;
-    T top;
-    T bottom;
+    T left{};
+    T right{};
+    T top{};
+    T bottom{};
 
     auto operator<=>(const generic_rect<T>& p) const = default;
 };
