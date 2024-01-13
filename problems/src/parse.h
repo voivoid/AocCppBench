@@ -13,6 +13,36 @@
 namespace aoc
 {
 
+// no attr, no skipper
+
+template <typename Iter, typename Parser>
+bool x3_parse(Iter begin, Iter end, const Parser& parser)
+{
+    const bool parsed = boost::spirit::x3::parse(begin, end, parser);
+    return parsed && (begin == end);
+}
+
+template <typename Parser>
+bool x3_parse(const std::string& input, const Parser& parser)
+{
+    return x3_parse(input.cbegin(), input.cend(), parser);
+}
+
+template <typename Parser>
+bool x3_parse(std::string_view input, const Parser& parser)
+{
+    return x3_parse(input.cbegin(), input.cend(), parser);
+}
+
+template <typename Parser>
+bool x3_parse(std::istream& input, const Parser& parser)
+{
+    input.unsetf(std::ios::skipws);
+    return x3_parse(boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser);
+}
+
+// no attr, with skipper
+
 template <typename Iter, typename Parser, typename Skipper>
 bool x3_parse(Iter begin, Iter end, const Parser& parser, const Skipper& skipper)
 {
@@ -39,6 +69,8 @@ bool x3_parse(std::istream& input, const Parser& parser, const Skipper& skipper)
     return x3_parse(boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper);
 }
 
+// out attr, with skipper
+
 template <typename Iter, typename Parser, typename Skipper, typename Attr>
 bool x3_parse(Iter begin, Iter end, const Parser& parser, const Skipper& skipper, Attr& attr)
 {
@@ -64,6 +96,8 @@ bool x3_parse(std::istream& input, const Parser& parser, const Skipper& skipper,
     input.unsetf(std::ios::skipws);
     return x3_parse(boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper, attr);
 }
+
+// ret attr, with skipper
 
 template <typename Attr, typename Parser, typename Skipper>
 std::optional<Attr> x3_parse_attr(boost::spirit::istream_iterator& begin, const Parser& parser, const Skipper& skipper)
