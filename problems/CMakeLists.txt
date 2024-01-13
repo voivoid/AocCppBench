@@ -1,6 +1,14 @@
 set(SOURCES
     inc/aoc/problems/register.h
     inc/aoc/problems/all.h
+    src/coords.h
+    src/coords_fusion.h
+    src/ensure.h
+    src/grid.h
+    src/macros.h
+    src/parse.h
+    src/stream.h
+    src/views.h
 
 #2015
     inc/aoc/problems/2015_01.h src/2015_01.cpp
@@ -9,6 +17,7 @@ set(SOURCES
     inc/aoc/problems/2015_04.h src/2015_04.cpp
     inc/aoc/problems/2015_05.h src/2015_05.cpp
     inc/aoc/problems/2015_06.h src/2015_06.cpp
+    inc/aoc/problems/2015_07.h src/2015_07.cpp
 
 #2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
@@ -42,14 +51,6 @@ set(SOURCES
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
 # ADD NEW PROBLEMS HERE
-    src/coords.h
-    src/coords_fusion.h
-    src/ensure.h
-    src/grid.h
-    src/macros.h
-    src/parse.h
-    src/stream.h
-    src/views.h
 )
 
 foreach(YEAR RANGE 2015 2023)

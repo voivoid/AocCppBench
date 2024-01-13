@@ -123,9 +123,14 @@ struct parser_iterator
         parse_line();
     }
 
-    const Attr& operator*() const noexcept
+    Attr& operator*() noexcept
     {
         return m_attr;
+    }
+
+    Attr& operator*() const noexcept
+    {
+        return const_cast<Attr&>(m_attr);
     }
 
     parser_iterator& operator++() noexcept

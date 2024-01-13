@@ -57,6 +57,7 @@ std::unordered_map<std::string, aoc::problem> aoc::problem_registrator::problems
 #include "aoc/problems/2015_04.h"
 #include "aoc/problems/2015_05.h"
 #include "aoc/problems/2015_06.h"
+#include "aoc/problems/2015_07.h"
 #include "aoc/problems/2021_01.h"
 #include "aoc/problems/2021_02.h"
 #include "aoc/problems/2021_03.h"
