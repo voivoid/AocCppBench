@@ -10,7 +10,7 @@
 #include <vector>
 
 #define BOOST_UUID_COMPAT_PRE_1_71_MD5
-#include "boost/uuid/detail/md5.hpp"
+#include <boost/uuid/detail/md5.hpp>
 
 namespace
 {

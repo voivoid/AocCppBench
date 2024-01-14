@@ -137,7 +137,7 @@ std::optional<Attr> x3_parse_attr(std::istream& input, const Parser& parser, con
         boost::spirit::istream_iterator{ input }, boost::spirit::istream_iterator{}, parser, skipper);
 }
 
-constexpr auto x3_size_t_ = boost::spirit::x3::ulong_;
+constexpr auto x3_size_t_ = boost::spirit::x3::ulong_long;
 
 template <typename Attr, typename Parser, typename Skipper, char separator>
 struct parser_iterator

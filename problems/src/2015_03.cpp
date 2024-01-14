@@ -39,13 +39,14 @@ size_t solve(std::istream& input)
     std::array<location, SantasNum> santas_locations;
     std::ranges::fill(santas_locations, initial_location);
 
-    for (const auto& offsets_chunk : move_offsets | views::chunk(SantasNum))
+    size_t current_santa = 0;
+    for (const auto& offset : move_offsets)
     {
-        for (auto [ offset, location ] : views::zip(offsets_chunk, std::ranges::ref_view(santas_locations)))
-        {
-            location += offset;
-            visited.insert(location);
-        }
+        auto& location = santas_locations[ current_santa ];
+        location += offset;
+        visited.insert(location);
+
+        current_santa = (current_santa + 1) % SantasNum;
     }
 
     return visited.size();

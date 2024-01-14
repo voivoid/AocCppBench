@@ -2,6 +2,10 @@
 
 #include "ensure.h"
 #include "parse.h"
+#include "stream.h"
+
+#include <istream>
+#include <ranges>
 
 namespace aoc
 {
@@ -34,20 +38,18 @@ size_t solve08_a(std::istream& input)
 
 size_t solve08_b(std::istream& input)
 {
-    namespace x3 = boost::spirit::x3;
-
     size_t diff = 0;
 
-    const auto inc_diff = [ & ](const size_t n) { return [ n, &diff ](const auto&) { diff += n; }; };
+    for (const std::string& line : std::ranges::views::istream<aoc::lines<>>(input))
+    {
+        assert(!line.empty());
 
-    const auto chr       = x3::alnum;
-    const auto quote     = x3::lit("\"");
-    const auto backslash = x3::lit("\\");
-    const auto symbol    = (backslash | quote)[ inc_diff(1) ] | chr;
-    const auto line      = (+symbol)[ inc_diff(2) ];
-    const auto parser    = *x3::lexeme[ line ];
-
-    ensure(aoc::x3_parse(input, parser, x3::space));
+        diff += 2;
+        for (const char c : line)
+        {
+            if (c == '\"' || c == '\\') ++diff;
+        }
+    };
 
     return diff;
 }
