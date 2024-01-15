@@ -14,19 +14,17 @@ void look_and_say(std::string& current_value, std::string& next_value)
     next_value.clear();
 
     size_t chunk_size = 0;
-    char chunk_char = current_value.front();
+    char chunk_char   = current_value.front();
 
-    const auto add_chunk = [&]() {
+    const auto add_chunk = [ & ]()
+    {
         next_value.push_back(static_cast<char>('0' + chunk_size));
         next_value.push_back(chunk_char);
     };
 
     for (const char c : current_value)
     {
-        if (c == chunk_char)
-        {
-            ++chunk_size;
-        }
+        if (c == chunk_char) { ++chunk_size; }
         else
         {
             add_chunk();

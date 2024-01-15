@@ -21,6 +21,7 @@ set(SOURCES
     inc/aoc/problems/2015_08.h src/2015_08.cpp
     inc/aoc/problems/2015_09.h src/2015_09.cpp
     inc/aoc/problems/2015_10.h src/2015_10.cpp
+    inc/aoc/problems/2015_11.h src/2015_11.cpp
 
 #2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
