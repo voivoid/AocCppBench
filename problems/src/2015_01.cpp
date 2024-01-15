@@ -1,8 +1,11 @@
 #include "aoc/problems/2015_01.h"
 
+#include <cassert>
+
 #include <algorithm>
 #include <istream>
 #include <ranges>
+
 
 namespace
 {
@@ -11,13 +14,9 @@ auto get_moves(std::istream& input)
     return std::ranges::views::istream<char>(input) | std::ranges::views::transform(
                                                           [](const char c)
                                                           {
-                                                              switch (c)
-                                                              {
-                                                                  case '(': return 1;
-                                                                  case ')': return -1;
-                                                              }
-
-                                                              std::unreachable();
+                                                              if (c == '(') return 1;
+                                                              assert(c == ')');
+                                                              return -1;
                                                           });
 }
 }  // namespace
