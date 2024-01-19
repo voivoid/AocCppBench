@@ -170,7 +170,7 @@ struct module_creator
 
     void operator()(const auto& ctx)
     {
-        auto [module_name, destinations] = aoc::x3_attrs_tuple(ctx);
+        auto [ module_name, destinations ] = aoc::x3_attrs_tuple(ctx);
 
         std::string key = module_name;
 

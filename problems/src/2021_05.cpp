@@ -38,8 +38,9 @@ auto make_line_parser()
 
     static const auto line_action = [](const auto& ctx)
     {
-        const auto [p1, p2] = aoc::x3_attrs_tuple(ctx);
-        aoc::line& val    = x3::_val(ctx);
+        const auto [ p1, p2 ] = aoc::x3_attrs_tuple(ctx);
+
+        aoc::line& val = x3::_val(ctx);
 
         std::tie(val.from, val.to) = std::minmax(p1, p2);
     };

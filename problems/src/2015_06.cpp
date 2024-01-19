@@ -42,8 +42,9 @@ auto make_parser()
 
     static constexpr auto area_action = [](const auto& ctx)
     {
-        const auto [width, height] = aoc::x3_attrs_tuple(ctx);
-        x3::_val(ctx)     = aoc::urect{ width, height };
+        const auto [ width, height ] = aoc::x3_attrs_tuple(ctx);
+
+        x3::_val(ctx) = aoc::urect{ width, height };
     };
 
     const auto point_parser = x3::rule<struct _point, aoc::upoint>{} = aoc::x3_size_t_ > ',' > aoc::x3_size_t_;
