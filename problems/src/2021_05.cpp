@@ -6,7 +6,6 @@
 #include "parse.h"
 #include "views.h"
 
-#include <boost/fusion/tuple.hpp>
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/register/point.hpp>
@@ -39,10 +38,10 @@ auto make_line_parser()
 
     static const auto line_action = [](const auto& ctx)
     {
-        const auto& attrs = x3::_attr(ctx);
+        const auto [p1, p2] = aoc::x3_attrs_tuple(ctx);
         aoc::line& val    = x3::_val(ctx);
 
-        std::tie(val.from, val.to) = std::minmax(boost::fusion::get<0>(attrs), boost::fusion::get<1>(attrs));
+        std::tie(val.from, val.to) = std::minmax(p1, p2);
     };
 
     auto point_parser = x3::rule<struct _point, aoc::point>{} = x3::int_ > ',' > x3::int_;

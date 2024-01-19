@@ -97,10 +97,7 @@ std::optional<parts> parse_parts(boost::spirit::istream_iterator& iter)
 
     const auto part_action = [](const auto& ctx)
     {
-        const auto& attr   = x3::_attr(ctx);
-        const char part    = boost::fusion::get<0>(attr);
-        const size_t value = boost::fusion::get<1>(attr);
-
+        const auto [part, value] = aoc::x3_attrs_tuple(ctx);
         x3::_val(ctx).values[ parts::part_idx(part) ] = value;
     };
 

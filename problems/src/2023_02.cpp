@@ -43,8 +43,7 @@ auto make_game_parser()
     {
         for (const auto& attr : _attr(ctx))
         {
-            const auto id         = boost::fusion::at_c<0>(attr);
-            const auto color_mptr = boost::fusion::at_c<1>(attr);
+            const auto [id, color_mptr] = aoc::fusion_to_std_tuple(attr);
             _val(ctx).*color_mptr = id;
         }
     };

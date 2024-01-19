@@ -7,10 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(MSVC)
-    #set(CMAKE_CXX_FLAGS "/EHsc /W4 /WX /MP /permissive- /Zc:preprocessor")
     add_compile_options(/W4 /WX /EHsc /MP /permissive- /volatile:iso /Zc:preprocessor,inline,lambda,__cplusplus,externConstexpr,throwingNew,templateScope,enumTypes)
-
-    add_compile_definitions("$<$<CONFIG:DEBUG>:_HAS_ITERATOR_DEBUGGING=0>")
 endif()
 
 include(cmake/thirdparty/boost.cmake)

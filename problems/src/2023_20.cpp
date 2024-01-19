@@ -170,9 +170,7 @@ struct module_creator
 
     void operator()(const auto& ctx)
     {
-        auto& attr         = boost::spirit::x3::_attr(ctx);
-        auto& module_name  = boost::fusion::get<0>(attr);
-        auto& destinations = boost::fusion::get<1>(attr);
+        auto [module_name, destinations] = aoc::x3_attrs_tuple(ctx);
 
         std::string key = module_name;
 

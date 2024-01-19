@@ -1,5 +1,7 @@
 #pragma once
 
+#include "fusion.h"
+
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
 
@@ -260,6 +262,16 @@ template <typename Attr, char separator = '\n', typename Parser>
 auto parse_lines(std::istream& input, const Parser& parser)
 {
     return parse_lines<Attr, separator>(input, parser, boost::spirit::x3::space);
+}
+
+auto opt_separated_list(const auto& left, const auto& right)
+{
+    return *(left >> -right);
+}
+
+auto x3_attrs_tuple(const auto& ctx)
+{
+    return aoc::fusion_to_std_tuple(boost::spirit::x3::_attr(ctx));
 }
 
 }  // namespace aoc

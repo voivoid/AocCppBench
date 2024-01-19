@@ -4,6 +4,7 @@ set(SOURCES
     src/coords.h
     src/coords_fusion.h
     src/ensure.h
+    src/fusion.h
     src/grid.h
     src/macros.h
     src/parse.h
@@ -22,6 +23,7 @@ set(SOURCES
     inc/aoc/problems/2015_09.h src/2015_09.cpp
     inc/aoc/problems/2015_10.h src/2015_10.cpp
     inc/aoc/problems/2015_11.h src/2015_11.cpp
+    inc/aoc/problems/2015_12.h src/2015_12.cpp
 
 #2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
@@ -54,6 +56,7 @@ set(SOURCES
     inc/aoc/problems/2023_19.h src/2023_19.cpp
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
+    inc/aoc/problems/2015_13.h src/2015_13.cpp
 # ADD NEW PROBLEMS HERE
 )
 

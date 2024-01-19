@@ -12,6 +12,7 @@ set(SOURCES
     src/2015_09.cpp
     src/2015_10.cpp
     src/2015_11.cpp
+    src/2015_12.cpp
 #2021
     src/2021_01.cpp
     src/2021_02.cpp
@@ -42,6 +43,7 @@ set(SOURCES
     src/2023_19.cpp
     src/2023_20.cpp
     src/2023_21.cpp
+    src/2015_13.cpp
 # ADD NEW TESTS HERE
 )
 
@@ -80,6 +82,8 @@ add_aoc_test(2015_08 1333 2046)
 add_aoc_test(2015_09 207 804)
 add_aoc_test(2015_10 252594 3579328)
 add_aoc_test(2015_11 hxbxxyzz hxcaabcc)
+add_aoc_test(2015_12 119433 68466)
+add_aoc_test(2015_13 618 601)
 
 #2021
 add_aoc_test(2021_01 1766 1797)
