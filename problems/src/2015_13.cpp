@@ -109,13 +109,18 @@ size_t solve(std::istream& input)
     }
     names_vec.push_back(std::move(names));
 
-    size_t best_distance = std::transform_reduce(
-        std::execution::par_unseq,
-        names_vec.begin(),
-        names_vec.end(),
-        std::numeric_limits<int>::min(),
-        [](const int a, const int b) { return std::max(a, b); },
-        std::bind_back(calc_best_happiness, std::ref(family_map)));
+#ifdef NDEBUG
+    const auto& executor = std::execution::par_unseq;
+#else
+    const auto& executor = std::execution::seq;
+#endif
+
+    size_t best_distance = std::transform_reduce(executor,
+                                                 names_vec.begin(),
+                                                 names_vec.end(),
+                                                 std::numeric_limits<int>::min(),
+                                                 std::ranges::max,
+                                                 std::bind_back(calc_best_happiness, std::ref(family_map)));
     return best_distance;
 }
 

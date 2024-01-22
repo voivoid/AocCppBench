@@ -87,16 +87,13 @@ size_t solve14_b(std::istream& input, const size_t seconds)
             const bool is_flying = (sec % (the_deer.fly_time + the_deer.rest_time)) < the_deer.fly_time;
             if (is_flying) states[ i ].distance += the_deer.speed;
 
-            if (states[i].distance > max_distance)
+            if (states[ i ].distance > max_distance)
             {
-                max_distance = states[i].distance;
+                max_distance = states[ i ].distance;
                 deer_to_score.clear();
             }
 
-            if (states[ i ].distance == max_distance)
-            {
-                deer_to_score.push_back(i);
-            }
+            if (states[ i ].distance == max_distance) { deer_to_score.push_back(i); }
         }
 
         for (const auto i : deer_to_score) { ++states[ i ].score; }

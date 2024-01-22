@@ -8,7 +8,9 @@
 #include <cassert>
 #include <istream>
 #include <iterator>
+#include <memory>
 #include <optional>
+#include <ranges>
 #include <string>
 #include <string_view>
 
@@ -159,12 +161,12 @@ struct parser_iterator
         parse_line();
     }
 
-    Attr& operator*() noexcept
+    reference operator*() noexcept
     {
         return m_attr;
     }
 
-    Attr& operator*() const noexcept
+    reference operator*() const noexcept
     {
         return const_cast<Attr&>(m_attr);
     }
@@ -230,14 +232,14 @@ template <typename Attr, char separator, typename Parser, typename Skipper>
 struct parser_range : std::ranges::view_interface<parser_range<Attr, separator, Parser, Skipper>>
 {
     parser_range(std::istream& input, const Parser& parser, const Skipper& skipper) :
-        m_input(&input), m_parser(parser), m_skipper(skipper)
+        m_input(&input), m_parser(std::make_shared<Parser>(parser)), m_skipper(skipper)
     {
     }
 
     parser_iterator<Attr, Parser, Skipper, separator> begin() const
     {
         static_assert(std::input_iterator<parser_iterator<Attr, Parser, Skipper, separator>>);
-        return parser_iterator<Attr, Parser, Skipper, separator>{ *m_input, m_parser, m_skipper };
+        return parser_iterator<Attr, Parser, Skipper, separator>{ *m_input, *m_parser, m_skipper };
     }
 
     parser_iterator<Attr, Parser, Skipper, separator> end() const
@@ -247,7 +249,7 @@ struct parser_range : std::ranges::view_interface<parser_range<Attr, separator, 
 
   private:
     std::istream* m_input;
-    Parser m_parser;
+    std::shared_ptr<Parser> m_parser;
     Skipper m_skipper;
 };
 
