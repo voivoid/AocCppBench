@@ -38,8 +38,7 @@ auto make_parser()
 {
     namespace x3 = boost::spirit::x3;
 
-    const auto make_property_parser = [](const auto name, property_idx idx)
-    { return x3::omit[ name ] > x3::int_ > x3::attr(idx); };
+    const auto make_property_parser = [](const auto name, property_idx idx) { return name > x3::int_ > x3::attr(idx); };
 
     const auto name       = x3::lexeme[ +x3::alpha ];
     const auto capacity   = make_property_parser(x3::lit("capacity"), property_idx::capacity);

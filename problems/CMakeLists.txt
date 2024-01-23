@@ -59,6 +59,7 @@ set(SOURCES
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
     inc/aoc/problems/2015_15.h src/2015_15.cpp
+    inc/aoc/problems/2015_16.h src/2015_16.cpp
 # ADD NEW PROBLEMS HERE
 )
 
