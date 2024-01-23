@@ -26,6 +26,10 @@ set(SOURCES
     inc/aoc/problems/2015_12.h src/2015_12.cpp
     inc/aoc/problems/2015_13.h src/2015_13.cpp
     inc/aoc/problems/2015_14.h src/2015_14.cpp
+    inc/aoc/problems/2015_15.h src/2015_15.cpp
+    inc/aoc/problems/2015_16.h src/2015_16.cpp
+    inc/aoc/problems/2015_17.h src/2015_17.cpp
+    inc/aoc/problems/2015_18.h src/2015_18.cpp
 
 #2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
@@ -58,8 +62,6 @@ set(SOURCES
     inc/aoc/problems/2023_19.h src/2023_19.cpp
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
-    inc/aoc/problems/2015_15.h src/2015_15.cpp
-    inc/aoc/problems/2015_16.h src/2015_16.cpp
 # ADD NEW PROBLEMS HERE
 )
 

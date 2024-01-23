@@ -66,7 +66,7 @@ boost::container::static_vector<size_t, 9>
 
     std::unordered_set<aoc::upoint> numbers_rightmost_coords;  // use unordered_set to get rid of possible rightmost
                                                                // coord duplicates
-    for (const auto neighbour_coord : aoc::get_neighbours(x, y, { { 0, 0 }, { width, height } }))
+    for (const auto neighbour_coord : aoc::get_neighbours(x, y, { { 0, 0 }, { width - 1, height - 1 } }))
     {
         const auto neighbour_char = schematic[ neighbour_coord.y ][ neighbour_coord.x ];
         if (std::isdigit(neighbour_char))

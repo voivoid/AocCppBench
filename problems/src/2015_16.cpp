@@ -5,8 +5,8 @@
 
 #include <algorithm>
 #include <istream>
-#include <tuple>
 #include <ranges>
+#include <tuple>
 
 #include <boost/fusion/adapted/std_pair.hpp>
 #include <boost/fusion/adapted/struct.hpp>
@@ -112,7 +112,7 @@ template <bool match_compound(size_t, size_t, compound)>
 size_t solve(std::istream& input)
 {
     const auto aunts = aoc::parse_lines<aunt_compounds>(input, make_parser());
-    auto aunt_iter = std::ranges::find_if(aunts, is_the_aunt<match_compound>);
+    auto aunt_iter   = std::ranges::find_if(aunts, is_the_aunt<match_compound>);
     assert(aunt_iter != aunts.cend());
 
     return aunt_iter->idx;

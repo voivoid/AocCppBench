@@ -28,12 +28,12 @@ class generic_grid
     }
 
     // TODO: use c++23 multidimensional [] op when available
-    T operator()(const size_t x, const size_t y) const
+    T operator()(const size_t x, const size_t y) const noexcept
     {
         return m_str.data()[ m_width * y + x ];
     }
 
-    T& operator()(const size_t x, const size_t y)
+    T& operator()(const size_t x, const size_t y) noexcept
     {
         return m_str.data()[ m_width * y + x ];
     }
@@ -62,22 +62,28 @@ class generic_grid
                std::ranges::views::transform([ = ](const auto x) { return (*this)(x, y); });
     }
 
-    const std::basic_string<T>& str() const
+    const std::basic_string<T>& str() const noexcept
     {
         return m_str;
     }
 
-    size_t get_width() const
+    size_t get_width() const noexcept
     {
         return m_width;
     }
 
-    size_t get_height() const
+    size_t get_height() const noexcept
     {
         return m_height;
     }
 
-    std::optional<aoc::upoint> find(const T t) const
+
+    aoc::urect get_bounding_rect() const noexcept
+    {
+        return { { 0, 0 }, { get_width() - 1, get_height() - 1 } };
+    }
+
+    std::optional<aoc::upoint> find(const T t) const noexcept
     {
         auto pos = m_str.find(t);
         if (pos == std::basic_string<T>::npos) return {};

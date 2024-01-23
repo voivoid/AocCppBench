@@ -64,9 +64,9 @@ size_t calc_north_load(const platform& platform)
 
     size_t total_load = 0;
 
-    for (size_t x = 0; x < width; ++x)
+    for (size_t y = 0; y < height; ++y)
     {
-        for (size_t y = 0; y < height; ++y)
+        for (size_t x = 0; x < width; ++x)
         {
             if (platform(x, y) == 'O') { total_load += height - y; }
         }
