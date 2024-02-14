@@ -4,6 +4,7 @@ set(SOURCES
     src/coords.h
     src/coords_fusion.h
     src/ensure.h
+    src/functors.h
     src/fusion.h
     src/grid.h
     src/macros.h
@@ -30,6 +31,10 @@ set(SOURCES
     inc/aoc/problems/2015_16.h src/2015_16.cpp
     inc/aoc/problems/2015_17.h src/2015_17.cpp
     inc/aoc/problems/2015_18.h src/2015_18.cpp
+    inc/aoc/problems/2015_19.h src/2015_19.cpp
+    inc/aoc/problems/2015_20.h src/2015_20.cpp
+    inc/aoc/problems/2015_21.h src/2015_21.cpp
+    inc/aoc/problems/2015_22.h src/2015_22.cpp
 
 #2021
     inc/aoc/problems/2021_01.h src/2021_01.cpp
@@ -62,7 +67,6 @@ set(SOURCES
     inc/aoc/problems/2023_19.h src/2023_19.cpp
     inc/aoc/problems/2023_20.h src/2023_20.cpp
     inc/aoc/problems/2023_21.h src/2023_21.cpp
-    inc/aoc/problems/2015_19.h src/2015_19.cpp
 # ADD NEW PROBLEMS HERE
 )
 
@@ -73,4 +77,4 @@ endforeach()
 add_library(aoc_problems STATIC ${SOURCES})
 add_library(aoc::problems ALIAS aoc_problems)
 target_include_directories(aoc_problems PUBLIC inc PRIVATE src)
-target_link_libraries(aoc_problems PRIVATE Boost::boost)
+target_link_libraries(aoc_problems PRIVATE Boost::container Boost::fusion Boost::variant Boost::unordered Boost::geometry Boost::context Boost::static_string Boost::circular_buffer Boost::hana Boost::icl Boost::uuid)

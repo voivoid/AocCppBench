@@ -2,8 +2,17 @@
 
 #include "fusion.h"
 
+#ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 4459)
+#endif
+
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
+
+#ifdef _MSC_VER
+#    pragma warning(pop)
+#endif
 
 #include <cassert>
 #include <istream>

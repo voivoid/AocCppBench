@@ -1,5 +1,7 @@
 #pragma once
 
+#include "macros.h"
+
 #include <algorithm>
 #include <functional>
 #include <limits>
@@ -216,8 +218,7 @@ neighbours<include_diagonal, T> get_neighbours(const T x, const T y, const aoc::
     const bool top    = y > min_y;
     const bool bottom = y < max_y;
 
-#pragma warning(push)
-#pragma warning(disable : 4127)
+    AOC_MSVC_DISABLE_WARNINGS_PUSH(4127)
 
     if (left)
     {
@@ -233,7 +234,7 @@ neighbours<include_diagonal, T> get_neighbours(const T x, const T y, const aoc::
         if (include_diagonal && bottom) neighbours.emplace_back(x + 1, y + 1);
     }
 
-#pragma warning(pop)
+    AOC_MSVC_DISABLE_WARNINGS_POP()
 
     if (top) { neighbours.emplace_back(x, y - 1); }
 

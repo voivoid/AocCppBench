@@ -9,9 +9,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <boost/algorithm/string/replace.hpp>
 #include <boost/fusion/adapted/std_pair.hpp>
 #include <boost/fusion/adapted/struct.hpp>
-#include <boost/algorithm/string/replace.hpp>
 
 namespace
 {
@@ -26,15 +26,17 @@ auto parse_input(std::istream& input)
     const auto src = x3::rule<struct _src, std::string>{} = x3::string("e") | molecule;
     const auto dest = x3::rule<struct _dest, std::string>{} = x3::lexeme[ +molecule ];
 
-    const auto replacement_action = [](const auto& ctx) {
-        auto [left, right] = aoc::fusion_to_std_tuple(x3::_attr(ctx));
-        auto& val = x3::_val(ctx);
+    const auto replacement_action = [](const auto& ctx)
+    {
+        auto [ left, right ] = aoc::fusion_to_std_tuple(x3::_attr(ctx));
+        auto& val            = x3::_val(ctx);
 
-        val.first = reverse_map ? std::move(right) : std::move(left);
+        val.first  = reverse_map ? std::move(right) : std::move(left);
         val.second = reverse_map ? std::move(left) : std::move(right);
     };
 
-    const auto replacement = x3::rule<struct _pair, std::pair<std::string, std::string>>{} = (src >> x3::lit("=>") > dest)[replacement_action];
+    const auto replacement = x3::rule<struct _pair, std::pair<std::string, std::string>>{} =
+        (src >> x3::lit("=>") > dest)[ replacement_action ];
     const auto replacements = +replacement;
 
     input.unsetf(std::ios::skipws);
@@ -87,8 +89,8 @@ size_t solve19_b(std::istream& input)
 {
     static const std::string_view destination = "e";
 
-    auto [replacemenets_map, medicine_molecule] = parse_input<true>(input);
-    
+    auto [ replacemenets_map, medicine_molecule ] = parse_input<true>(input);
+
     return 0;
 }
 

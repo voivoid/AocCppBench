@@ -1,3 +1,7 @@
+#ifdef _MSC_VER
+#    define _SILENCE_ALL_CXX23_DEPRECATION_WARNINGS  // ignore boost geometry warnings
+#endif
+
 #include "aoc/problems/2021_05.h"
 
 #include "coords.h"
@@ -77,7 +81,14 @@ size_t solve(std::istream& input, const bool ignore_diagonal)
             const auto l2_dir = get_line_dir(l2);
             if (ignore_diagonal && l2_dir == diagonal) continue;
 
+#ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 4244)  // ignore boost geometry warnings
+#endif
             boost::geometry::intersection(l1, l2, line_intersections);
+#ifdef _MSC_VER
+#    pragma warning(pop)
+#endif
 
             if (line_intersections.size() == 1)
             {
