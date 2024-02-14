@@ -23,6 +23,7 @@ set(SOURCES
     src/2015_20.cpp
     src/2015_21.cpp
     src/2015_22.cpp
+    src/2015_23.cpp
 #2021
     src/2021_01.cpp
     src/2021_02.cpp
@@ -102,6 +103,7 @@ add_aoc_test(2015_19 576 0)
 add_aoc_test(2015_20 0 0)
 add_aoc_test(2015_21 121 201)
 add_aoc_test(2015_22 1824 1937)
+add_aoc_test(2015_23 307 160)
 
 #2021
 add_aoc_test(2021_01 1766 1797)
